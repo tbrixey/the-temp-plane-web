@@ -12,6 +12,10 @@
   align-items: center;
 }
 
+.svg {
+  position: absolute;
+}
+
 .footer {
   display: flex;
   flex: 1;
@@ -19,13 +23,6 @@
   border-top: 1px solid #eaeaea;
   justify-content: center;
   align-items: center;
-}
-
-.footer a {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-grow: 1;
 }
 
 .title a {
