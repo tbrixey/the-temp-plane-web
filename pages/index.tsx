@@ -136,7 +136,7 @@ const Home: NextPage = () => {
             <p>
               The Temporary Plane runs purely on a web api so you can build your
               very own web portal or mobile application to play. You can even
-              write a python script to automate yourself!
+              write a python script to automate your character!
             </p>
           </div>
         </div>
