@@ -16,3 +16,13 @@ export const useGetUsers = () => {
     isError: error,
   };
 };
+
+export const useGetLocations = () => {
+  const { data, error } = useSWR("locations", fetcher);
+
+  return {
+    locations: data,
+    isLoading: !error && !data,
+    isError: error,
+  };
+};

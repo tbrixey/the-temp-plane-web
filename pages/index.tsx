@@ -1,64 +1,33 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import styles from "../styles/Home.module.css";
-import { useGetUsers } from "../util/useGetUsers";
+import { useGetLocations, useGetUsers } from "../util/useGetUsers";
+import { groupBy, keys } from "lodash";
+import { User } from "../types/user";
 
 const Home: NextPage = () => {
   const ref = useRef<SVGSVGElement | null>(null);
   const { users, isLoading, isError } = useGetUsers();
+  const { locations } = useGetLocations();
+  const [usersGrouped, setUsers] = useState<{ [key: string]: User[] }>();
+
+  const x = d3.scaleLinear().range([0, 100]);
+  const y = d3.scaleLinear().range([100, 0]);
+
+  x.domain([-120, 120]);
+  y.domain([-110, 110]);
 
   useEffect(() => {
-    const group = d3.select(".mapGroup");
-
-    const x = d3.scaleLinear().range([0, 100]);
-    const y = d3.scaleLinear().range([100, 0]);
-
-    x.domain([-110, 110]);
-    y.domain([-110, 110]);
-    console.log("USERS", users);
     if (users) {
-      var gdots = group.selectAll("g.dot").data(users).enter().append("g");
+      const userCounts = groupBy(users, "location");
 
-      const dot = gdots
-        .append("circle")
-        .attr("class", "dot")
-        .attr("r", (d: any) => {
-          return 0.25;
-        })
-        .attr("cx", (d: any) => {
-          return x(d.x);
-        })
-        .attr("cy", (d: any) => {
-          return y(d.y);
-        })
-        .style("fill", (d: any) => {
-          return d.c;
-        });
-      dot
-        .append("animate")
-        .attr("attributeName", "opacity")
-        .attr("values", "0;1;0")
-        .attr("dur", "2s")
-        .attr("repeatCount", "indefinite");
-
-      gdots
-        .append("text")
-        .attr("x", (d: any) => {
-          return x(d.x);
-        })
-        .attr("y", (d: any) => {
-          return y(d.y) - 0.5;
-        })
-        .attr("text-anchor", "middle")
-        .style("font-size", 1)
-        .style("font-weight", 500)
-        .text((d: any) => d.location);
+      setUsers(userCounts);
     }
   }, [users]);
 
-  console.log("USERS", users, isLoading, isError);
+  console.log("USERS", locations);
 
   return (
     <div className={styles.container}>
@@ -103,7 +72,7 @@ const Home: NextPage = () => {
             ref={ref}
             width="100%"
             height="100%"
-            viewBox="0 0 100 100"
+            viewBox="0 0 135 100"
             version="1.1"
             className={styles.svg}
           >
@@ -113,9 +82,77 @@ const Home: NextPage = () => {
                 x="0"
                 y="0"
                 width="100%"
-                height="75%"
+                height="100%"
                 preserveAspectRatio="xMinYMin slice"
               ></image>
+              {/* {locations &&
+                locations.map((loc: any) => {
+                  return (
+                    <g key={loc.name}>
+                      <circle
+                        cx={x(loc.x)}
+                        cy={y(loc.y)}
+                        r={0.25}
+                        className={styles.locationDot}
+                        fill={loc.type === "city" ? "#fff" : "#000"}
+                      >
+                        <animate
+                          attributeName="opacity"
+                          values="0;1;0"
+                          dur="2s"
+                          repeatCount="indefinite"
+                        />
+                      </circle>
+                      <text
+                        x={x(loc.x)}
+                        y={y(loc.y) - 0.5}
+                        textAnchor="middle"
+                        fontSize={1}
+                        fontWeight={500}
+                      >
+                        {loc.name}
+                      </text>
+                    </g>
+                  );
+                })} */}
+              {usersGrouped &&
+                keys(usersGrouped).map((userKey) => {
+                  console.log("TESTING", usersGrouped[userKey]);
+                  return (
+                    <g key={userKey}>
+                      <circle
+                        cx={x(usersGrouped[userKey][0].x)}
+                        cy={y(usersGrouped[userKey][0].y)}
+                        r={0.25}
+                        className={styles.locationDot}
+                      >
+                        <animate
+                          attributeName="opacity"
+                          values="0;1;0"
+                          dur="2s"
+                          repeatCount="indefinite"
+                        />
+                      </circle>
+                      <text
+                        x={x(usersGrouped[userKey][0].x)}
+                        y={y(usersGrouped[userKey][0].y) - 0.5}
+                        textAnchor="middle"
+                        fontSize={1.25}
+                        fontWeight={500}
+                      >
+                        {userKey}
+                      </text>
+                      <text
+                        x={x(usersGrouped[userKey][0].x)}
+                        y={y(usersGrouped[userKey][0].y) + 1}
+                        textAnchor="middle"
+                        fontSize={1}
+                      >
+                        {usersGrouped[userKey].length} Players
+                      </text>
+                    </g>
+                  );
+                })}
             </g>
           </svg>
         </div>
