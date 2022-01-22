@@ -3,15 +3,16 @@ import Head from "next/head";
 import { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import styles from "../styles/Home.module.css";
-import { useGetLocations, useGetUsers } from "../util/useGetUsers";
+import { useGetCities, useGetUsers } from "../util/useGetUsers";
 import { groupBy, keys } from "lodash";
 import { User } from "../types/user";
 
 const Home: NextPage = () => {
   const ref = useRef<SVGSVGElement | null>(null);
   const { users, isLoading, isError } = useGetUsers();
-  const { locations } = useGetLocations();
+  const { cities } = useGetCities();
   const [usersGrouped, setUsers] = useState<{ [key: string]: User[] }>();
+  const [cityHover, setCityHover] = useState("");
 
   const x = d3.scaleLinear().range([0, 100]);
   const y = d3.scaleLinear().range([100, 0]);
@@ -27,8 +28,7 @@ const Home: NextPage = () => {
     }
   }, [users]);
 
-  console.log("USERS", locations);
-
+  console.log("USER", usersGrouped);
   return (
     <div className={styles.container}>
       <Head>
@@ -68,93 +68,96 @@ const Home: NextPage = () => {
       <main className={styles.main}>
         <div className={styles.mapContent}>
           <p className={styles.mapTitle}>Live player map</p>
-          <svg
-            ref={ref}
-            width="100%"
-            height="100%"
-            viewBox="0 0 135 100"
-            version="1.1"
-            className={styles.svg}
-          >
-            <g className="mapGroup">
-              <image
-                href="map.jpg"
-                x="0"
-                y="0"
-                width="100%"
-                height="100%"
-                preserveAspectRatio="xMinYMin slice"
-              ></image>
-              {/* {locations &&
-                locations.map((loc: any) => {
-                  return (
-                    <g key={loc.name}>
-                      <circle
-                        cx={x(loc.x)}
-                        cy={y(loc.y)}
-                        r={0.25}
-                        className={styles.locationDot}
-                        fill={loc.type === "city" ? "#fff" : "#000"}
-                      >
-                        <animate
-                          attributeName="opacity"
-                          values="0;1;0"
-                          dur="2s"
-                          repeatCount="indefinite"
-                        />
-                      </circle>
-                      <text
-                        x={x(loc.x)}
-                        y={y(loc.y) - 0.5}
-                        textAnchor="middle"
-                        fontSize={1}
-                        fontWeight={500}
-                      >
-                        {loc.name}
-                      </text>
-                    </g>
-                  );
-                })} */}
-              {usersGrouped &&
-                keys(usersGrouped).map((userKey) => {
-                  console.log("TESTING", usersGrouped[userKey]);
-                  return (
-                    <g key={userKey}>
-                      <circle
-                        cx={x(usersGrouped[userKey][0].x)}
-                        cy={y(usersGrouped[userKey][0].y)}
-                        r={0.25}
-                        className={styles.locationDot}
-                      >
-                        <animate
-                          attributeName="opacity"
-                          values="0;1;0"
-                          dur="2s"
-                          repeatCount="indefinite"
-                        />
-                      </circle>
-                      <text
-                        x={x(usersGrouped[userKey][0].x)}
-                        y={y(usersGrouped[userKey][0].y) - 0.5}
-                        textAnchor="middle"
-                        fontSize={1.25}
-                        fontWeight={500}
-                      >
-                        {userKey}
-                      </text>
-                      <text
-                        x={x(usersGrouped[userKey][0].x)}
-                        y={y(usersGrouped[userKey][0].y) + 1}
-                        textAnchor="middle"
-                        fontSize={1}
-                      >
-                        {usersGrouped[userKey].length} Players
-                      </text>
-                    </g>
-                  );
-                })}
-            </g>
-          </svg>
+          {/* {cities &&
+              usersGrouped &&
+              cities.map((city: any, idx: number) => {
+                return (
+                  <p
+                    key={city.name}
+                    onMouseEnter={() => {
+                      setCityHover(city.name);
+                    }}
+                    onMouseLeave={() => {
+                      setCityHover("");
+                    }}
+                  >
+                    {idx + 1}. {city.name} -{" "}
+                    {usersGrouped[city.name]
+                      ? usersGrouped[city.name].length
+                      : 0}{" "}
+                    players
+                  </p>
+                );
+              })} */}
+          <div className={styles.map}>
+            <svg
+              ref={ref}
+              width="100%"
+              height="100%"
+              viewBox="0 0 135 100"
+              version="1.1"
+              className={styles.svg}
+            >
+              <g className="mapGroup">
+                <image
+                  href="map.jpg"
+                  x="0"
+                  y="0"
+                  width="100%"
+                  height="100%"
+                  preserveAspectRatio="xMinYMin slice"
+                ></image>
+                {cities &&
+                  usersGrouped &&
+                  cities.map((loc: any) => {
+                    return (
+                      <g key={loc.name}>
+                        <circle
+                          cx={x(loc.x)}
+                          cy={y(loc.y)}
+                          r={0.5}
+                          className={styles.locationDot}
+                          fill={cityHover === loc.name ? "yellow" : "black"}
+                        >
+                          {cityHover === loc.name && (
+                            <animate
+                              key={loc.name}
+                              attributeName="r"
+                              values="0.5;1;0.5"
+                              dur="2s"
+                              repeatCount="indefinite"
+                            />
+                          )}
+                        </circle>
+                        <text
+                          x={x(loc.x)}
+                          y={y(loc.y) - 1.25}
+                          textAnchor="middle"
+                          fontSize={1.75}
+                          fontWeight={700}
+                          className={styles.mapText}
+                        >
+                          {loc.name}
+                        </text>
+                        <text
+                          x={x(loc.x)}
+                          y={y(loc.y) + 2}
+                          textAnchor="middle"
+                          fontWeight={500}
+                          fontSize={1.25}
+                          className={styles.mapText}
+                        >
+                          {usersGrouped[loc.name]
+                            ? usersGrouped[loc.name].length
+                            : 0}{" "}
+                          Players
+                        </text>
+                      </g>
+                    );
+                  })}
+              </g>
+            </svg>
+          </div>
         </div>
         <div className={styles.howToContent}>
           <div className={styles.howToTitle}>

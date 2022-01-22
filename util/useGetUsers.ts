@@ -17,11 +17,11 @@ export const useGetUsers = () => {
   };
 };
 
-export const useGetLocations = () => {
-  const { data, error } = useSWR("locations", fetcher);
+export const useGetCities = () => {
+  const { data, error } = useSWR("cities", fetcher);
 
   return {
-    locations: data,
+    cities: data,
     isLoading: !error && !data,
     isError: error,
   };
