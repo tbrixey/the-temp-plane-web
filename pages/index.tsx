@@ -6,13 +6,13 @@ import styles from "../styles/Home.module.css";
 import { useGetCities, useGetUsers } from "../util/useGetUsers";
 import { groupBy, keys } from "lodash";
 import { User } from "../types/user";
+import { isBrowser } from "react-device-detect";
 
 const Home: NextPage = () => {
   const ref = useRef<SVGSVGElement | null>(null);
-  const { users, isLoading, isError } = useGetUsers();
+  const { users, isError } = useGetUsers();
   const { cities } = useGetCities();
   const [usersGrouped, setUsers] = useState<{ [key: string]: User[] }>();
-  const [cityHover, setCityHover] = useState("");
 
   const x = d3.scaleLinear().range([0, 100]);
   const y = d3.scaleLinear().range([100, 0]);
@@ -28,7 +28,6 @@ const Home: NextPage = () => {
     }
   }, [users]);
 
-  console.log("USER", usersGrouped);
   return (
     <div className={styles.container}>
       <Head>
@@ -66,99 +65,90 @@ const Home: NextPage = () => {
       </header>
 
       <main className={styles.main}>
-        <div className={styles.mapContent}>
-          <p className={styles.mapTitle}>Live player map</p>
-          {/* {cities &&
-              usersGrouped &&
-              cities.map((city: any, idx: number) => {
-                return (
-                  <p
-                    key={city.name}
-                    onMouseEnter={() => {
-                      setCityHover(city.name);
-                    }}
-                    onMouseLeave={() => {
-                      setCityHover("");
-                    }}
-                  >
-                    {idx + 1}. {city.name} -{" "}
-                    {usersGrouped[city.name]
-                      ? usersGrouped[city.name].length
-                      : 0}{" "}
-                    players
-                  </p>
-                );
-              })} */}
-          <div className={styles.map}>
-            <svg
-              ref={ref}
-              width="100%"
-              height="100%"
-              viewBox="0 0 135 100"
-              version="1.1"
-              className={styles.svg}
-            >
-              <g className="mapGroup">
-                <image
-                  href="map.jpg"
-                  x="0"
-                  y="0"
-                  width="100%"
-                  height="100%"
-                  preserveAspectRatio="xMinYMin slice"
-                ></image>
-                {cities &&
-                  usersGrouped &&
-                  cities.map((loc: any) => {
-                    return (
-                      <g key={loc.name}>
-                        <circle
-                          cx={x(loc.x)}
-                          cy={y(loc.y)}
-                          r={0.5}
-                          className={styles.locationDot}
-                          fill={cityHover === loc.name ? "yellow" : "black"}
-                        >
-                          {cityHover === loc.name && (
-                            <animate
-                              key={loc.name}
-                              attributeName="r"
-                              values="0.5;1;0.5"
-                              dur="2s"
-                              repeatCount="indefinite"
-                            />
-                          )}
-                        </circle>
-                        <text
-                          x={x(loc.x)}
-                          y={y(loc.y) - 1.25}
-                          textAnchor="middle"
-                          fontSize={1.75}
-                          fontWeight={700}
-                          className={styles.mapText}
-                        >
-                          {loc.name}
-                        </text>
-                        <text
-                          x={x(loc.x)}
-                          y={y(loc.y) + 2}
-                          textAnchor="middle"
-                          fontWeight={500}
-                          fontSize={1.25}
-                          className={styles.mapText}
-                        >
-                          {usersGrouped[loc.name]
-                            ? usersGrouped[loc.name].length
-                            : 0}{" "}
-                          Players
-                        </text>
-                      </g>
-                    );
-                  })}
-              </g>
-            </svg>
+        {isBrowser ? (
+          <div className={styles.mapContent}>
+            <p className={styles.mapTitle}>Live player map</p>
+            {isError && <p className={styles.errorText}>*error loading data</p>}
+            <div className={styles.map}>
+              <svg
+                ref={ref}
+                width="100%"
+                height="100%"
+                viewBox="0 0 135 100"
+                version="1.1"
+                className={styles.svg}
+              >
+                <g className="mapGroup">
+                  <image
+                    href="map.jpg"
+                    x="0"
+                    y="0"
+                    width="100%"
+                    height="100%"
+                    preserveAspectRatio="xMinYMin slice"
+                  ></image>
+                  {cities &&
+                    usersGrouped &&
+                    cities.map((loc: any) => {
+                      return (
+                        <g key={loc.name}>
+                          <circle
+                            cx={x(loc.x)}
+                            cy={y(loc.y)}
+                            r={0.5}
+                            className={styles.locationDot}
+                          ></circle>
+                          <text
+                            x={x(loc.x)}
+                            y={y(loc.y) - 1.25}
+                            textAnchor="middle"
+                            fontSize={1.75}
+                            fontWeight={700}
+                            className={styles.mapText}
+                          >
+                            {loc.name}
+                          </text>
+                          <text
+                            x={x(loc.x)}
+                            y={y(loc.y) + 2}
+                            textAnchor="middle"
+                            fontWeight={500}
+                            fontSize={1.25}
+                            className={styles.mapText}
+                          >
+                            {usersGrouped[loc.name]
+                              ? usersGrouped[loc.name].length
+                              : 0}{" "}
+                            Players
+                          </text>
+                        </g>
+                      );
+                    })}
+                </g>
+              </svg>
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className={styles.mapContent}>
+            <p className={styles.mapTitle}>Live player locations</p>
+            {isError && <p className={styles.errorText}>*error loading data</p>}
+            <div className={styles.mapText}>
+              {cities &&
+                usersGrouped &&
+                cities.map((loc: any) => {
+                  return (
+                    <p key={loc.name}>
+                      • <b>{loc.name}</b> -{" "}
+                      {usersGrouped[loc.name]
+                        ? usersGrouped[loc.name].length
+                        : 0}{" "}
+                      players
+                    </p>
+                  );
+                })}
+            </div>
+          </div>
+        )}
         <div className={styles.howToContent}>
           <div className={styles.howToTitle}>
             <p>How do I play?</p>
@@ -177,6 +167,36 @@ const Home: NextPage = () => {
               The Temporary Plane runs purely on a web api so you can build your
               very own web portal or mobile application to play. You can even
               write a python script to automate your character!
+            </p>
+          </div>
+        </div>
+        <div className={styles.faq}>
+          <div className={styles.howToTitle}>
+            <p>FAQ</p>
+          </div>
+          <div className={styles.faqMain}>
+            <p className={styles.faqQ}>Is there a roadmap in place?</p>
+            <p className={styles.faqA}>
+              Currently we do not have a roadmap as we are very early in
+              development and am only working on this in our spare time. You can
+              follow progress and see what is coming up next at our public{" "}
+              <a
+                href="https://trello.com/b/tIEjLUYM/the-temporary-plane"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Trello board
+              </a>
+              .
+            </p>
+            <p className={styles.faqQ}>Do you have documentation?</p>
+            <p className={styles.faqA}>
+              Not yet 😞 Documentation will be available at the time of release.
+            </p>
+            <p className={styles.faqQ}>I have a question</p>
+            <p className={styles.faqA}>
+              Oh cool! Please reach out to me on discord and I will do my best
+              to answer it.
             </p>
           </div>
         </div>
