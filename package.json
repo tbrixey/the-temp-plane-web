@@ -6,6 +6,7 @@
     "build": "next build",
     "build-export": "next build && next export",
     "start": "next start",
+    "start-prod": "PORT=443 next start",
     "lint": "next lint"
   },
   "dependencies": {
