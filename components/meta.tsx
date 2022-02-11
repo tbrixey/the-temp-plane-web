@@ -10,8 +10,11 @@ const MetaTags = () => {
         content="Immerse yourself in an ever-changing and ever-growing game space
             catered and created by you."
       />
-      <meta property="og:image" content="/map.jpg" />
-      <meta property="twitter:image" content="/map.jpg" />
+      <meta property="og:image" content="https://i.imgur.com/SEuzdzg.jpg" />
+      <meta
+        property="twitter:image"
+        content="https://i.imgur.com/SEuzdzg.jpg"
+      />
       <meta property="og:image:type" content="image/jpeg" />
       <meta property="og:image:width" content="600" />
       <meta property="og:image:height" content="250" />
