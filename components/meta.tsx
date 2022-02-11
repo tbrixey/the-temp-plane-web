@@ -30,7 +30,7 @@ const MetaTags = () => {
       />
 
       {/*twitter*/}
-      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:card" content="summary" />
       <meta name="twitter:title" content="The Temporary Plane" />
       <meta
         name="twitter:description"
