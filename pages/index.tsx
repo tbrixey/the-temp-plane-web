@@ -7,6 +7,7 @@ import { useGetCities, useGetUsers } from "../util/useGetUsers";
 import { groupBy, keys } from "lodash";
 import { User } from "../types/user";
 import { isBrowser } from "react-device-detect";
+import MetaTags from "../components/meta";
 
 const Home: NextPage = () => {
   const ref = useRef<SVGSVGElement | null>(null);
@@ -32,6 +33,7 @@ const Home: NextPage = () => {
     <div className={styles.container}>
       <Head>
         <title>The Temporary Plane</title>
+        <MetaTags />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
