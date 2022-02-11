@@ -10,14 +10,8 @@ const MetaTags = () => {
         content="Immerse yourself in an ever-changing and ever-growing game space
             catered and created by you."
       />
-      <meta
-        property="og:image"
-        content="http://thetemporaryplane.com/map.jpg"
-      />
-      <meta
-        property="og:image:secure_url"
-        content="https://thetemporaryplane.com/map.jpg"
-      />
+      <meta property="og:image" content="/map.jpg" />
+      <meta property="twitter:image" content="/map.jpg" />
       <meta property="og:image:type" content="image/jpeg" />
       <meta property="og:image:width" content="600" />
       <meta property="og:image:height" content="250" />
