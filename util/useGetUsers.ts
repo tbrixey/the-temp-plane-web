@@ -4,7 +4,7 @@ import axios from "axios";
 const fetcher = async (url: string) => {
   const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
-  return await axios.get(BASE_URL + url).then((res) => res.data);
+  return await axios.get(BASE_URL + url).then((res) => res.data.data);
 };
 
 export const useGetUsers = () => {
