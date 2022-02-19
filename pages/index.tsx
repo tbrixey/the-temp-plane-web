@@ -8,6 +8,7 @@ import { groupBy, keys } from "lodash";
 import { User } from "../types/user";
 import { isBrowser } from "react-device-detect";
 import MetaTags from "../components/meta";
+import Link from "next/link";
 
 const Home: NextPage = () => {
   const ref = useRef<SVGSVGElement | null>(null);
@@ -45,6 +46,7 @@ const Home: NextPage = () => {
             Immerse yourself in an ever-changing and ever-growing game space
             catered and created by you.
           </p>
+
           <div className={styles.heroButtonGroup}>
             <a
               href="https://discord.gg/6YAyH86TAa"
@@ -60,7 +62,7 @@ const Home: NextPage = () => {
               target={"_blank"}
               rel="noreferrer"
             >
-              Support us
+              Support me
             </a>
           </div>
         </div>
@@ -70,6 +72,11 @@ const Home: NextPage = () => {
         {isBrowser ? (
           <div className={styles.mapContent}>
             <p className={styles.mapTitle}>Live player map</p>
+            <p className={styles.mapDescription}>
+              This map shows all current player locations in The Temporary
+              Plane. The plan is to make this map more interactable in the
+              future.
+            </p>
             {isError && <p className={styles.errorText}>*error loading data</p>}
             <div className={styles.map}>
               <svg
@@ -133,6 +140,10 @@ const Home: NextPage = () => {
         ) : (
           <div className={styles.mapContent}>
             <p className={styles.mapTitle}>Live player locations</p>
+            <p className={styles.mapDescription}>
+              This list shows all current player locations in The Temporary
+              Plane.
+            </p>
             {isError && <p className={styles.errorText}>*error loading data</p>}
             <div className={styles.mapText}>
               {cities &&
@@ -155,20 +166,21 @@ const Home: NextPage = () => {
           <div className={styles.howToTitle}>
             <p>How do I play?</p>
             <p>
-              You can get started now by playing through our basic web portal.
+              You can get started soon by playing through our basic web portal.
             </p>
             <a href="#" className={`${styles.btn} ${styles.playBtn}`}>
               Play now
             </a>
             <p className={styles.playSubText}>
-              *Still in development. Please join discord to learn more
+              *Planning beta launch early Q2. Join Discord or follow on Twitter
+              to be alerted when you can claim your name.
             </p>
           </div>
           <div className={styles.howToMain}>
             <p>
               The Temporary Plane runs purely on a web api so you can build your
               very own web portal or mobile application to play. You can even
-              write a python script to automate your character!
+              write an automation script to play your character!
             </p>
           </div>
         </div>
@@ -179,9 +191,8 @@ const Home: NextPage = () => {
           <div className={styles.faqMain}>
             <p className={styles.faqQ}>Is there a roadmap in place?</p>
             <p className={styles.faqA}>
-              Currently we do not have a roadmap as we are very early in
-              development and am only working on this in our spare time. You can
-              follow progress and see what is coming up next at our public{" "}
+              You can follow progress and see what is coming up next at our
+              public{" "}
               <a
                 href="https://trello.com/b/tIEjLUYM/the-temporary-plane"
                 target="_blank"
@@ -189,22 +200,42 @@ const Home: NextPage = () => {
               >
                 Trello board
               </a>
-              .
+              . I currently have it organized by what is planned by Quarter with
+              more stuff added to the backlog often. If you think of something I
+              am missing, let me know!
             </p>
             <p className={styles.faqQ}>Do you have documentation?</p>
             <p className={styles.faqA}>
-              Not yet 😞 Documentation will be available at the time of release.
+              Not yet 😞 Documentation will be available at the time of full
+              release. Some documentation will be available once beta hits.
             </p>
             <p className={styles.faqQ}>I have a question</p>
             <p className={styles.faqA}>
-              Oh cool! Please reach out to me on discord and I will do my best
-              to answer it.
+              Oh cool! Reach out to me on Discord or Twitter and I will do my
+              best to answer it.
             </p>
           </div>
         </div>
       </main>
 
       <footer className={styles.footer}>
+        <a
+          href="https://twitter.com/TheTempPlane"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Twitter
+        </a>
+        <a
+          href="https://discord.gg/6YAyH86TAa"
+          target={"_blank"}
+          rel="noreferrer"
+        >
+          Discord
+        </a>
+        <a href="https://trevorbrixey.com" target={"_blank"} rel="noreferrer">
+          Made with ❤️
+        </a>
         <p>© {new Date().getFullYear()} The Temporary Plane</p>
       </footer>
     </div>

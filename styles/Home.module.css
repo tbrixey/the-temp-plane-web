@@ -28,8 +28,13 @@
 .mapTitle {
   font-size: 2rem;
   font-weight: 700;
-  margin: 1em;
+  margin: 0.5em;
   text-align: center;
+}
+
+.mapDescription {
+  margin: 0.5em;
+  max-width: 40%;
 }
 
 .mapContent {
@@ -128,6 +133,7 @@
 .footer {
   display: flex;
   flex: 1;
+  flex-direction: column;
   padding: 2rem 0;
   border-top: 1px solid #eaeaea;
   justify-content: center;
@@ -153,7 +159,7 @@
 }
 
 .errorText {
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   font-weight: 400;
 }
 
@@ -195,7 +201,12 @@
 
   .mapTitle {
     font-size: 1.5rem;
-    padding: 1.5em 0;
+  }
+
+  .mapDescription {
+    font-size: 0.875rem;
+    max-width: 90%;
+    text-align: center;
   }
 
   .mapText {
