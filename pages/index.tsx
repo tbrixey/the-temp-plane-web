@@ -8,7 +8,7 @@ import { groupBy, keys } from "lodash";
 import { User } from "../types/user";
 import { isBrowser } from "react-device-detect";
 import MetaTags from "../components/meta";
-import Link from "next/link";
+import ReactGA from "react-ga4";
 
 const Home: NextPage = () => {
   const ref = useRef<SVGSVGElement | null>(null);
@@ -29,6 +29,11 @@ const Home: NextPage = () => {
       setUsers(userCounts);
     }
   }, [users]);
+
+  useEffect(() => {
+    ReactGA.initialize("G-BQ5EELVCVP");
+    ReactGA.send({ hitType: "pageview", page: "/" });
+  }, []);
 
   return (
     <div className={styles.container}>
