@@ -3,6 +3,7 @@ lockfileVersion: 5.3
 specifiers:
   '@types/d3': ^7.1.0
   '@types/lodash': ^4.14.178
+  '@types/mixpanel-browser': ^2.38.0
   '@types/node': 17.0.9
   '@types/react': 17.0.38
   axios: ^0.24.0
@@ -10,11 +11,11 @@ specifiers:
   eslint: 8.7.0
   eslint-config-next: 12.0.8
   lodash: ^4.17.21
+  mixpanel-browser: ^2.45.0
   next: 12.0.8
   react: 17.0.2
   react-device-detect: ^2.1.2
   react-dom: 17.0.2
-  react-ga4: ^1.4.1
   swr: ^1.1.2
   typescript: 4.5.4
 
@@ -22,16 +23,17 @@ dependencies:
   axios: 0.24.0
   d3: 7.3.0
   lodash: 4.17.21
+  mixpanel-browser: 2.45.0
   next: 12.0.8_react-dom@17.0.2+react@17.0.2
   react: 17.0.2
   react-device-detect: 2.1.2_react-dom@17.0.2+react@17.0.2
   react-dom: 17.0.2_react@17.0.2
-  react-ga4: 1.4.1
   swr: 1.2.2_react@17.0.2
 
 devDependencies:
   '@types/d3': 7.1.0
   '@types/lodash': 4.14.180
+  '@types/mixpanel-browser': 2.38.0
   '@types/node': 17.0.9
   '@types/react': 17.0.38
   eslint: 8.7.0
@@ -449,6 +451,10 @@ packages:
 
   /@types/lodash/4.14.180:
     resolution: {integrity: sha512-XOKXa1KIxtNXgASAnwj7cnttJxS4fksBRywK/9LzRV5YxrF80BXZIGeQSuoESQ/VkUj30Ae0+YcuHc15wJCB2g==}
+    dev: true
+
+  /@types/mixpanel-browser/2.38.0:
+    resolution: {integrity: sha512-TR8rvsILnqXA7oiiGOxuMGXwvDeCoQDonXJB5UR+TYvEAFpiK8ReFj5LhZT+Xhm3NpI9aPoju30jB2ssorSUww==}
     dev: true
 
   /@types/node/17.0.9:
@@ -1781,6 +1787,10 @@ packages:
   /minimist/1.2.6:
     resolution: {integrity: sha512-Jsjnk4bw3YJqYzbdyBiNsPWHPfO++UGG749Cxs6peCu5Xg4nrena6OVxOYxrQTqww0Jmwt+Ref8rggumkTLz9Q==}
 
+  /mixpanel-browser/2.45.0:
+    resolution: {integrity: sha512-PQ1DaTk68yyYtLA0iejmzPA9iNDhT4uIZpqZjRTw7HWpYfl123fydHb2laKanaKjm8YDmrGGz3+xZ4Q6joogyg==}
+    dev: false
+
   /ms/2.0.0:
     resolution: {integrity: sha1-VgiurfwAvmwpAd9fmGF4jeDVl8g=}
     dev: true
@@ -2037,10 +2047,6 @@ packages:
       object-assign: 4.1.1
       react: 17.0.2
       scheduler: 0.20.2
-    dev: false
-
-  /react-ga4/1.4.1:
-    resolution: {integrity: sha512-ioBMEIxd4ePw4YtaloTUgqhQGqz5ebDdC4slEpLgy2sLx1LuZBC9iYCwDymTXzcntw6K1dHX183ulP32nNdG7w==}
     dev: false
 
   /react-is/16.13.1:
