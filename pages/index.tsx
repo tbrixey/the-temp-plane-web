@@ -3,12 +3,14 @@ import Head from "next/head";
 import { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import styles from "../styles/Home.module.css";
+import standardStyles from "../styles/Standard.module.css";
 import { useGetCities, useGetUsers } from "../util/useGetUsers";
-import { groupBy, keys } from "lodash";
+import { groupBy } from "lodash";
 import { User } from "../types/user";
 import { isBrowser } from "react-device-detect";
 import MetaTags from "../components/meta";
 import mixpanel from "mixpanel-browser";
+import Link from "next/link";
 
 const Home: NextPage = () => {
   const ref = useRef<SVGSVGElement | null>(null);
@@ -55,7 +57,7 @@ const Home: NextPage = () => {
           <div className={styles.heroButtonGroup}>
             <a
               href="https://discord.gg/6YAyH86TAa"
-              className={styles.btn}
+              className={standardStyles.btn}
               target={"_blank"}
               rel="noreferrer"
             >
@@ -63,7 +65,7 @@ const Home: NextPage = () => {
             </a>
             <a
               href="https://www.patreon.com/TheTemporaryPlane"
-              className={styles.btn}
+              className={standardStyles.btn}
               target={"_blank"}
               rel="noreferrer"
             >
@@ -170,12 +172,10 @@ const Home: NextPage = () => {
         <div className={styles.howToContent}>
           <div className={styles.howToTitle}>
             <p>How do I play?</p>
-            <p>
-              You can get started soon by playing through our basic web portal.
-            </p>
-            <a href="#" className={`${styles.btn} ${styles.playBtn}`}>
-              Play now
-            </a>
+            <p>You can get started by playing through our basic web portal.</p>
+            <Link href="/game" passHref={true}>
+              <div className={standardStyles.btn}>Play now</div>
+            </Link>
             <p className={styles.playSubText}>
               Sign in or Register to start playing.
             </p>
