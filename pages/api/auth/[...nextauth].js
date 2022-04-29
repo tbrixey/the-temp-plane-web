@@ -1,4 +1,5 @@
 import NextAuth from "next-auth/next";
+import GoogleProvider from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
 import axios from "axios";
 
@@ -14,6 +15,10 @@ export default NextAuth({
 
         return { name: "PLAYER NAME" };
       },
+    }),
+    GoogleProvider({
+      clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
+      clientSecret: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET,
     }),
   ],
   pages: {

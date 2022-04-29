@@ -1,5 +1,7 @@
 import styles from "../styles/Game.module.css";
 import { useSession, signIn, signOut } from "next-auth/react";
+import standardStyles from "../styles/Standard.module.css";
+import Link from "next/link";
 
 export default function Game() {
   const { data: session } = useSession();
@@ -7,15 +9,22 @@ export default function Game() {
   if (!session) {
     return (
       <div className={styles.container}>
-        Not signed in <br />
-        <button onClick={() => signIn()}>Sign in</button>
+        Sign in or register to get started! <br />
+        <button className={standardStyles.btn} onClick={() => signIn()}>
+          Sign in
+        </button>
+        <Link href="/register" passHref={true}>
+          <div className={standardStyles.btn}>Register</div>
+        </Link>
       </div>
     );
   }
   return (
     <div className={styles.container}>
       Signed in as {session?.user?.name} <br />
-      <button onClick={() => signOut()}>Sign out</button>
+      <button className={standardStyles.btn} onClick={() => signOut()}>
+        Sign out
+      </button>
     </div>
   );
 }
