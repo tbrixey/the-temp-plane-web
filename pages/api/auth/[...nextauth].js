@@ -3,6 +3,8 @@ import GoogleProvider from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
 import axios from "axios";
 
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+
 export default NextAuth({
   providers: [
     Credentials({
@@ -10,10 +12,25 @@ export default NextAuth({
       credentials: {
         apiKey: { label: "API Key", type: "text" },
       },
-      authorize: async (credentials) => {
-        console.log("CRED", credentials);
-
-        return { name: "PLAYER NAME" };
+      async authorize(credentials) {
+        try {
+          const user = await axios.post(
+            BASE_URL + "authorizePlayer",
+            { apiKey: credentials?.apiKey },
+            {
+              headers: {
+                accept: "*/*",
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + credentials?.apiKey,
+              },
+            }
+          );
+          if (user) {
+            return { user: user.data.data };
+          }
+        } catch (e) {
+          return null;
+        }
       },
     }),
     GoogleProvider({
@@ -31,12 +48,19 @@ export default NextAuth({
     jwt: true,
   },
   callbacks: {
-    redirect({ url, baseUrl }) {
-      if (url.startsWith(baseUrl)) return baseUrl + "/game";
-      // Allows relative callback URLs
-      else if (url.startsWith("/"))
-        return new URL(url, baseUrl + "/game").toString();
-      return baseUrl + "/game";
+    async jwt(token) {
+      if (token.user) {
+        token.accessToken = token.user.apiKey;
+      } else if (token.token.user) {
+        token.accessToken = token.token.user.apiKey;
+      }
+      return token;
+    },
+
+    async session({ session, token }) {
+      session.accessToken = token.token.accessToken;
+      session.user = token.token.user.user;
+      return session;
     },
   },
 });

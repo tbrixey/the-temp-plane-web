@@ -4,17 +4,25 @@ import styles from "../../styles/Login.module.css";
 import standardStyles from "../../styles/Standard.module.css";
 
 export default function SignIn({ providers }: any) {
-  const [apiKey, setApiKey] = useState("");
+  const [apiKey, setApiKey] = useState(
+    "3z28pbubc4zf3h3sbf552lath4cr98xcs4668rakrn0wcdu9i6taiebb81hen2a36cxsvn4l3flji4l05prrraiqg5b5n6fcm9gybp96u6umd"
+  );
 
   return (
     <div className={styles.container}>
       <div className={styles.main}>
         <input
           className={standardStyles.textInput}
+          value={apiKey}
           onChange={(e) => setApiKey(e.target.value)}
         />
         <button
-          onClick={() => signIn("credentials", { apiKey })}
+          onClick={() =>
+            signIn("credentials", {
+              apiKey,
+              callbackUrl: `${window.location.origin}/game`,
+            })
+          }
           className={standardStyles.btn}
         >
           Sign in with API Key

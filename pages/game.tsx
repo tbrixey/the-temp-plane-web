@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export default function Game() {
   const { data: session } = useSession();
-  console.log("SESSION", session);
+
   if (!session) {
     return (
       <div className={styles.container}>
@@ -14,14 +14,33 @@ export default function Game() {
           Sign in
         </button>
         <Link href="/register" passHref={true}>
-          <div className={standardStyles.btn}>Register</div>
+          <button className={standardStyles.btn}>Register</button>
         </Link>
       </div>
     );
   }
+
   return (
     <div className={styles.container}>
-      Signed in as {session?.user?.name} <br />
+      <div>
+        Signed in as{" "}
+        <span style={{ fontWeight: "bold", textDecoration: "underline" }}>
+          {session.user.playerName}
+        </span>
+        <br />
+        {session.user.quests[0].type === "intro" ? (
+          <div>
+            Tasks to complete character
+            <ul>
+              {session.user.quests[0].tasks?.map((task, idx) => (
+                <li key={idx}>{task}</li>
+              ))}
+            </ul>
+          </div>
+        ) : (
+          <div>Welcome back!</div>
+        )}
+      </div>
       <button className={standardStyles.btn} onClick={() => signOut()}>
         Sign out
       </button>
