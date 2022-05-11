@@ -1,3 +1,4 @@
+import { Button, Stack, TextField } from "@mui/material";
 import { getProviders, signIn } from "next-auth/react";
 import { useState } from "react";
 import styles from "../../styles/Login.module.css";
@@ -10,38 +11,36 @@ export default function SignIn({ providers }: any) {
 
   return (
     <div className={styles.container}>
-      <div className={styles.main}>
-        <input
-          className={standardStyles.textInput}
+      <Stack spacing={2} style={{ width: 300 }}>
+        <TextField
           value={apiKey}
           onChange={(e) => setApiKey(e.target.value)}
+          variant="standard"
+          multiline
         />
-        <button
+        <Button
           onClick={() =>
             signIn("credentials", {
               apiKey,
               callbackUrl: `${window.location.origin}/game`,
             })
           }
-          className={standardStyles.btn}
+          variant="contained"
         >
           Sign in with API Key
-        </button>
-      </div>
-      {Object.values(providers).map((provider: any) => (
+        </Button>
+      </Stack>
+      {/* {Object.values(providers).map((provider: any) => (
         <div key={provider.name}>
           {provider.name !== "API Key" && (
             <div className={styles.main}>
-              <button
-                onClick={() => signIn(provider.id)}
-                className={standardStyles.btn}
-              >
+              <Button onClick={() => signIn(provider.id)} variant="contained">
                 Sign in with {provider.name}
-              </button>
+              </Button>
             </div>
           )}
         </div>
-      ))}
+      ))} */}
     </div>
   );
 }

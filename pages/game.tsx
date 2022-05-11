@@ -1,21 +1,31 @@
 import styles from "../styles/Game.module.css";
 import { useSession, signIn, signOut } from "next-auth/react";
-import standardStyles from "../styles/Standard.module.css";
 import Link from "next/link";
+import {
+  useGetClasses,
+  useGetRaces,
+  useGetStartingCities,
+} from "../util/useGetStarting";
+import { Button, Grid, Stack, Typography } from "@mui/material";
 
 export default function Game() {
   const { data: session } = useSession();
+  const { cities } = useGetStartingCities();
+  const { classes } = useGetClasses();
+  const { races } = useGetRaces();
 
   if (!session) {
     return (
       <div className={styles.container}>
-        Sign in or register to get started! <br />
-        <button className={standardStyles.btn} onClick={() => signIn()}>
-          Sign in
-        </button>
-        <Link href="/register" passHref={true}>
-          <button className={standardStyles.btn}>Register</button>
-        </Link>
+        <Stack spacing={2}>
+          <Typography>Sign in or register to get started!</Typography>
+          <Button onClick={() => signIn()} variant="contained">
+            Sign in
+          </Button>
+          <Link href="/register" passHref={true}>
+            <Button variant="contained">Register</Button>
+          </Link>
+        </Stack>
       </div>
     );
   }
@@ -24,10 +34,9 @@ export default function Game() {
     <div className={styles.container}>
       <div>
         Signed in as{" "}
-        <span style={{ fontWeight: "bold", textDecoration: "underline" }}>
+        <Typography style={{ fontWeight: "bold", textDecoration: "underline" }}>
           {session.user.playerName}
-        </span>
-        <br />
+        </Typography>
         {session.user.quests[0].type === "intro" ? (
           <div>
             Tasks to complete character
@@ -41,9 +50,9 @@ export default function Game() {
           <div>Welcome back!</div>
         )}
       </div>
-      <button className={standardStyles.btn} onClick={() => signOut()}>
+      <Button variant="contained" onClick={() => signOut()}>
         Sign out
-      </button>
+      </Button>
     </div>
   );
 }

@@ -14,12 +14,6 @@
   border: none;
 }
 
-.btn:hover,
-.btn:focus {
-  transform: scale(1.05);
-  opacity: 0.9;
-}
-
 .textInput {
   width: 100%;
 }

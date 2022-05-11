@@ -3,6 +3,7 @@ import { useSession, signIn } from "next-auth/react";
 import standardStyles from "../styles/Standard.module.css";
 import { useState } from "react";
 import axios from "axios";
+import { Button, TextField } from "@mui/material";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -29,10 +30,12 @@ export default function Register() {
     <div className={styles.container}>
       Register your player name:
       <div className={styles.main}>
-        <input
-          className={standardStyles.textInput}
+        <TextField
           onChange={(e) => setUsername(e.target.value)}
-          maxLength={36}
+          inputProps={{
+            maxLength: 36,
+          }}
+          variant="standard"
           disabled={Boolean(apiKey)}
         />
         <span style={{ textAlign: "right", fontSize: 12 }}>
@@ -48,14 +51,14 @@ export default function Register() {
             Make sure to save this somewhere! If you do not remember this your
             character will be forever lost in the plane.
           </div>
-          <button onClick={actualSignIn} className={standardStyles.btnSmall}>
+          <Button onClick={actualSignIn} variant="contained">
             Sign me in
-          </button>
+          </Button>
         </div>
       ) : (
-        <button onClick={registerUser} className={standardStyles.btnSmall}>
+        <Button onClick={registerUser} variant="contained">
           Register
-        </button>
+        </Button>
       )}
     </div>
   );
