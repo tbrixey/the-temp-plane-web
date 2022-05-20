@@ -35,13 +35,13 @@ export default function Game() {
       <div>
         Signed in as{" "}
         <Typography style={{ fontWeight: "bold", textDecoration: "underline" }}>
-          {session.user.playerName}
+          {session.user.data.playerName}
         </Typography>
-        {session.user.quests[0].type === "intro" ? (
+        {session.user.data.quests[0].type === "intro" ? (
           <div>
             Tasks to complete character
             <ul>
-              {session.user.quests[0].tasks?.map((task, idx) => (
+              {session.user.data.quests[0].tasks?.map((task, idx) => (
                 <li key={idx}>{task}</li>
               ))}
             </ul>
