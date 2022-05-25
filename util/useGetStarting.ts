@@ -1,5 +1,8 @@
 import useSWR from "swr";
 import axios from "axios";
+import { Classes } from "../types/classes";
+import { Races } from "../types/races";
+import { Location } from "../types/location";
 
 const fetcher = async (url: string) => {
   const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -8,7 +11,7 @@ const fetcher = async (url: string) => {
 };
 
 export const useGetStartingCities = () => {
-  const { data, error } = useSWR("cities", fetcher);
+  const { data, error } = useSWR<Location[]>("cities", fetcher);
 
   return {
     cities: data,
@@ -18,7 +21,7 @@ export const useGetStartingCities = () => {
 };
 
 export const useGetClasses = () => {
-  const { data, error } = useSWR("class", fetcher);
+  const { data, error } = useSWR<Classes[]>("class", fetcher);
 
   return {
     classes: data,
@@ -28,7 +31,7 @@ export const useGetClasses = () => {
 };
 
 export const useGetRaces = () => {
-  const { data, error } = useSWR("race", fetcher);
+  const { data, error } = useSWR<Races[]>("race", fetcher);
 
   return {
     races: data,

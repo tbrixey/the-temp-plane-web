@@ -1,18 +1,11 @@
 import styles from "../styles/Game.module.css";
 import { useSession, signIn, signOut } from "next-auth/react";
 import Link from "next/link";
-import {
-  useGetClasses,
-  useGetRaces,
-  useGetStartingCities,
-} from "../util/useGetStarting";
-import { Button, Grid, Stack, Typography } from "@mui/material";
+import { Button, Stack, Typography } from "@mui/material";
+import { NewPlayerSetup } from "../components/newPlayerSetup";
 
 export default function Game() {
   const { data: session } = useSession();
-  const { cities } = useGetStartingCities();
-  const { classes } = useGetClasses();
-  const { races } = useGetRaces();
 
   if (!session) {
     return (
@@ -32,7 +25,7 @@ export default function Game() {
 
   return (
     <div className={styles.container}>
-      <div>
+      <div style={{ textAlign: "center" }}>
         Signed in as{" "}
         <Typography style={{ fontWeight: "bold", textDecoration: "underline" }}>
           {session.user.data.playerName}
@@ -40,19 +33,18 @@ export default function Game() {
         {session.user.data.quests[0].type === "intro" ? (
           <div>
             Tasks to complete character
-            <ul>
-              {session.user.data.quests[0].tasks?.map((task, idx) => (
-                <li key={idx}>{task}</li>
-              ))}
-            </ul>
+            <div>
+              <span>{session.user.data.quests[0].tasks?.join(", ")}</span>
+            </div>
+            <NewPlayerSetup />
           </div>
         ) : (
           <div>Welcome back!</div>
         )}
       </div>
-      <Button variant="contained" onClick={() => signOut()}>
+      {/* <Button variant="contained" onClick={() => signOut()}>
         Sign out
-      </Button>
+      </Button> */}
     </div>
   );
 }
