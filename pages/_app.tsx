@@ -2,7 +2,7 @@ import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import { SessionProvider } from "next-auth/react";
 import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
-import { grey } from "@mui/material/colors";
+import { SnackbarProvider } from "notistack";
 
 const theme = createTheme({
   palette: {
@@ -19,7 +19,9 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
     <SessionProvider session={session}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Component {...pageProps} />
+        <SnackbarProvider maxSnack={3}>
+          <Component {...pageProps} />
+        </SnackbarProvider>
       </ThemeProvider>
     </SessionProvider>
   );
