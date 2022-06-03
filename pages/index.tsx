@@ -177,7 +177,7 @@ const Home: NextPage = () => {
               <div className={standardStyles.btn}>Play now</div>
             </Link>
             <p className={styles.playSubText}>
-              Sign in or Register to start playing.
+              Sign in or Register to start playing. *ALPHA stage
             </p>
           </div>
           <div className={styles.howToMain}>
