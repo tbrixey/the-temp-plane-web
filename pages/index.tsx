@@ -33,8 +33,8 @@ const Home: NextPage = () => {
   }, [users]);
 
   useEffect(() => {
-    // mixpanel.init("65716fe117ed3663f98a6ae5abcd68d3", { debug: true });
-    // mixpanel.track("landing-page-view");
+    mixpanel.init("65716fe117ed3663f98a6ae5abcd68d3", { debug: true });
+    mixpanel.track("landing-page-view");
   }, []);
 
   return (
