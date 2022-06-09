@@ -130,9 +130,9 @@ const Game = ({ cities, classes, races }: GameStaticProps) => {
           </>
         )}
       </div>
-      {/* <Button variant="contained" onClick={() => signOut()}>
+      <Button variant="contained" onClick={() => signOut()} sx={{ mt: 4 }}>
         Sign out
-      </Button> */}
+      </Button>
     </div>
   );
 };
