@@ -123,7 +123,9 @@ const Game = ({ cities, classes, races }: GameStaticProps) => {
               </Grid>
               <Grid item>
                 <Link href="/game/skilling" passHref={true}>
-                  <Button variant="contained">Skilling</Button>
+                  <Button variant="contained" disabled>
+                    Skilling
+                  </Button>
                 </Link>
               </Grid>
             </Grid>
