@@ -82,7 +82,7 @@ const PlayerQuests = ({ cities }: { cities: Location[] }) => {
 
   return (
     <div className={styles.container}>
-      {user.location.type === "city" ? (
+      {user.location && user.location.type === "city" ? (
         <>
           <Typography style={{ textAlign: "center" }}>
             Get available quests in <b>{user.location.name}</b>
