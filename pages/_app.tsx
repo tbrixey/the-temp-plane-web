@@ -16,7 +16,14 @@ const theme = createTheme({
   },
 });
 
-function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
+interface NewAppProps extends AppProps {
+  pageProps: any;
+}
+
+function MyApp({
+  Component,
+  pageProps: { session, ...pageProps },
+}: NewAppProps) {
   const [user, setUser] = useState();
   return (
     <SessionProvider session={session}>
