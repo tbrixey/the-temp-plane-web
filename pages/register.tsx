@@ -7,6 +7,7 @@ import copy from "copy-to-clipboard";
 import { useSnackbar } from "notistack";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+const callbackUrl = process.env.NEXT_PUBLIC_CALLBACK_URL;
 
 export default function Register() {
   const [username, setUsername] = useState("");
@@ -24,7 +25,7 @@ export default function Register() {
   const actualSignIn = () => {
     signIn("credentials", {
       apiKey,
-      callbackUrl: `${window.location.origin}/game`,
+      callbackUrl,
     });
   };
 

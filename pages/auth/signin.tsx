@@ -3,6 +3,8 @@ import { getProviders, signIn } from "next-auth/react";
 import { useState } from "react";
 import styles from "../../styles/Login.module.css";
 
+const callbackUrl = process.env.NEXT_PUBLIC_CALLBACK_URL;
+
 export default function SignIn({ providers }: any) {
   const [apiKey, setApiKey] = useState("");
 
@@ -19,7 +21,7 @@ export default function SignIn({ providers }: any) {
           onClick={() =>
             signIn("credentials", {
               apiKey,
-              callbackUrl: `${window.location.origin}/game`,
+              callbackUrl,
             })
           }
           variant="contained"
