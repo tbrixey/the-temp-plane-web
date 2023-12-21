@@ -15,6 +15,15 @@ module.exports = {
           },
         ],
       },
+      {
+        source: "/game/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "no-store, max-age=0",
+          },
+        ],
+      },
     ];
   },
 };
