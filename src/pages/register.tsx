@@ -1,18 +1,20 @@
 import styles from "../styles/Login.module.css";
-import { signIn } from "next-auth/react";
 import { useState } from "react";
 import axios from "axios";
 import { Button, TextField, Typography } from "@mui/material";
 import copy from "copy-to-clipboard";
 import { useSnackbar } from "notistack";
+import { useAuth } from "../contexts/authContext";
+import { config } from "../config";
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
-const callbackUrl = process.env.NEXT_PUBLIC_CALLBACK_URL;
+const BASE_URL = config.apiUrl;
+const callbackUrl = config.callbackUrl;
 
 export default function Register() {
   const [username, setUsername] = useState("");
-  const [apiKey, setApiKey] = useState();
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const [apiKey, setApiKey] = useState<string | undefined>();
+  const { enqueueSnackbar } = useSnackbar();
+  const { signIn } = useAuth();
 
   const registerUser = async () => {
     await axios.post(BASE_URL + `register/${username}`).then((res) => {
@@ -22,11 +24,14 @@ export default function Register() {
     });
   };
 
-  const actualSignIn = () => {
-    signIn("credentials", {
-      apiKey,
-      callbackUrl,
-    });
+  const actualSignIn = async () => {
+    if (apiKey) {
+      try {
+        await signIn(apiKey, callbackUrl || "/game");
+      } catch (e) {
+        console.error("Sign in failed", e);
+      }
+    }
   };
 
   const copyKey = () => {

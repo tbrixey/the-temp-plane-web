@@ -6,8 +6,7 @@
 .hero {
   text-align: center;
   padding: 20em 0;
-  background: #202124;
-  background-image: url(../public/space-background.jpg);
+  background-color: #202124;
   background-size: cover;
   background-blend-mode: overlay;
   background-attachment: fixed;

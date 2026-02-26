@@ -9,12 +9,12 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import { find } from "lodash";
-import { useSession } from "next-auth/react";
-import Link from "next/link";
+import { Link } from "react-router-dom";
 import { useState } from "react";
 import { Classes } from "../types/classes";
 import { Location } from "../types/location";
 import { Races } from "../types/races";
+import { useSession } from "../contexts/authContext";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -34,11 +34,6 @@ export const NewPlayerSetup = ({
   const [selectedLocation, setSelectedLocation] = useState("");
   const [submit, setSubmit] = useState({ current: "no" });
   const { data: session } = useSession();
-
-  const reloadSession = () => {
-    const event = new Event("visibilitychange");
-    document.dispatchEvent(event);
-  };
 
   const submitPlayerRegistration = async () => {
     if (session) {
@@ -60,7 +55,6 @@ export const NewPlayerSetup = ({
         console.log("Quest List", res.data);
       });
       setSubmit({ current: "done" });
-      reloadSession();
     }
   };
 
@@ -184,7 +178,7 @@ export const NewPlayerSetup = ({
         </div>
       )}
       {submit.current === "done" && (
-        <Link href="/game" passHref={true}>
+        <Link to="/game">
           <Button variant="contained">Reload</Button>
         </Link>
       )}

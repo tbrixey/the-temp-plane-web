@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "ES2017",
     "lib": ["dom", "dom.iterable", "esnext"],
+    "types": ["vite/client"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -9,17 +10,11 @@
     "noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve",
-    "incremental": true
+    "jsx": "react-jsx"
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    "pages/api/auth/[...nextauth].js"
-  ],
-  "exclude": ["node_modules"]
+  "include": ["src/**/*.ts", "src/**/*.tsx", "rsbuild.config.ts"],
+  "exclude": ["node_modules", "dist"]
 }

@@ -2,38 +2,39 @@
   "name": "the-temp-plane-web",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "build-export": "next build && next export",
-    "start": "next start",
-    "start-prod": "PORT=3000 next start",
-    "lint": "next lint"
+    "dev": "rsbuild dev",
+    "build": "rsbuild build",
+    "preview": "rsbuild preview",
+    "lint": "eslint src --ext .ts,.tsx"
   },
   "dependencies": {
-    "@emotion/react": "^11.11.1",
-    "@emotion/styled": "^11.11.0",
-    "@mui/material": "^5.15.0",
-    "axios": "^0.24.0",
+    "@emotion/react": "^11.11.6",
+    "@emotion/styled": "^11.11.6",
+    "@mui/material": "^5.16.0",
+    "axios": "^1.7.9",
     "copy-to-clipboard": "^3.3.3",
-    "d3": "^7.8.5",
+    "d3": "^7.9.0",
     "lodash": "^4.17.21",
-    "mixpanel-browser": "^2.48.1",
-    "next": "^13.5.6",
-    "next-auth": "^4.24.5",
-    "notistack": "^2.0.8",
-    "react": "18.2.0",
+    "mixpanel-browser": "^2.54.0",
+    "notistack": "^3.0.2",
+    "react": "^18.3.1",
     "react-device-detect": "^2.2.3",
-    "react-dom": "18.2.0",
-    "swr": "^1.3.0"
+    "react-dom": "^18.3.1",
+    "react-helmet-async": "^2.0.5",
+    "react-router-dom": "^6.28.0",
+    "swr": "^2.2.5"
   },
   "devDependencies": {
+    "@rsbuild/core": "^1.3.19",
+    "@rsbuild/plugin-react": "^1.1.0",
     "@types/d3": "^7.4.3",
-    "@types/lodash": "^4.14.202",
+    "@types/lodash": "^4.17.13",
     "@types/mixpanel-browser": "^2.47.5",
-    "@types/node": "17.0.9",
-    "@types/react": "17.0.38",
-    "eslint": "8.7.0",
-    "eslint-config-next": "13.5.6",
-    "typescript": "4.5.4"
-  }
+    "@types/node": "^22.10.2",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "eslint": "^9.17.0",
+    "typescript": "^5.7.2"
+  },
+  "packageManager": "pnpm@9.14.4+sha512.c8180b3fbe4e4bca02c94234717896b5529740a6cbadf19fa78254270403ea2f27d4e1d46a08a0f56c89b63dc8ebfd3ee53326da720273794e6200fcf0d184ab"
 }

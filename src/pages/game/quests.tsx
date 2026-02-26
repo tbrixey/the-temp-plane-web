@@ -1,47 +1,24 @@
 import styles from "../../styles/Game.module.css";
-import { useSession } from "next-auth/react";
+import { useSession } from "../../contexts/authContext";
 import {
-  Box,
   Button,
-  FormControl,
-  FormControlLabel,
+  CircularProgress,
   Grid,
-  InputLabel,
-  MenuItem,
-  Select,
-  Switch,
-  TextField,
   Typography,
 } from "@mui/material";
-import { GetServerSideProps } from "next";
 import axios from "axios";
-import { Location } from "../../types/location";
 import { useContext, useEffect, useState } from "react";
 import userContext from "../../util/userContext";
-import { useRouter } from "next/router";
+import { useNavigate } from "react-router-dom";
 import { useSnackbar } from "notistack";
 import { Quest } from "../../types/quest";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
-interface GameStaticProps {
-  cities: Location[];
-}
-
-export const getStaticProps: GetServerSideProps<GameStaticProps> = async () => {
-  const { data: cityRes } = await axios.get(BASE_URL + "cities");
-
-  return {
-    props: {
-      cities: cityRes.data,
-    },
-  };
-};
-
-const PlayerQuests = ({ cities }: { cities: Location[] }) => {
+const PlayerQuests = () => {
   const { data: session } = useSession();
-  const router = useRouter();
-  const { user, setUser } = useContext(userContext);
+  const navigate = useNavigate();
+  const { user } = useContext(userContext);
 
   const [availableQuests, setavailableQuests] = useState<Quest[]>();
 
@@ -49,7 +26,7 @@ const PlayerQuests = ({ cities }: { cities: Location[] }) => {
 
   useEffect(() => {
     if (!session) {
-      router.push("/game");
+      navigate("/game");
     }
   });
 
@@ -63,13 +40,13 @@ const PlayerQuests = ({ cities }: { cities: Location[] }) => {
         setavailableQuests(res.data.data);
       })
       .catch((error: any) => {
-        console.warn("Error getting travel time", error.response);
+        console.warn("Error getting quests", error.response);
         if (error.response.data.data.message) {
           enqueueSnackbar(
             error.response.data.data.message + " try refreshing."
           );
         } else {
-          enqueueSnackbar("Error getting travel time, try again later.");
+          enqueueSnackbar("Error getting quests, try again later.");
         }
       });
   };

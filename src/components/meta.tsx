@@ -1,5 +1,3 @@
-//https://gist.github.com/lancejpollard/1978404
-
 const MetaTags = () => {
   return (
     <>

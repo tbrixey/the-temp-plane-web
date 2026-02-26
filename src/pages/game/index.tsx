@@ -1,6 +1,6 @@
 import styles from "../../styles/Game.module.css";
-import { useSession, signIn, signOut } from "next-auth/react";
-import Link from "next/link";
+import { useSession, useAuth } from "../../contexts/authContext";
+import { Link } from "react-router-dom";
 import {
   Button,
   CircularProgress,
@@ -9,39 +9,25 @@ import {
   Typography,
 } from "@mui/material";
 import { NewPlayerSetup } from "../../components/newPlayerSetup";
-import { GetServerSideProps } from "next";
 import axios from "axios";
-import { Location } from "../../types/location";
-import { Races } from "../../types/races";
-import { Classes } from "../../types/classes";
 import { useContext, useEffect } from "react";
 import userContext from "../../util/userContext";
+import {
+  useGetStartingCities,
+  useGetClasses,
+  useGetRaces,
+} from "../../util/useGetStarting";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
-interface GameStaticProps {
-  cities: Location[];
-  races: Races[];
-  classes: Classes[];
-}
-
-export const getStaticProps: GetServerSideProps<GameStaticProps> = async () => {
-  const { data: cityRes } = await axios.get(BASE_URL + "cities");
-  const { data: classRes } = await axios.get(BASE_URL + "class");
-  const { data: raceRes } = await axios.get(BASE_URL + "race");
-
-  return {
-    props: {
-      cities: cityRes.data,
-      classes: classRes.data,
-      races: raceRes.data,
-    },
-  };
-};
-
-const Game = ({ cities, classes, races }: GameStaticProps) => {
+const Game = () => {
   const { data: session } = useSession();
+  const { signIn, signOut } = useAuth();
   const { user, setUser } = useContext(userContext);
+
+  const { cities } = useGetStartingCities();
+  const { classes } = useGetClasses();
+  const { races } = useGetRaces();
 
   useEffect(() => {
     async function fetchData() {
@@ -70,10 +56,10 @@ const Game = ({ cities, classes, races }: GameStaticProps) => {
       <div className={styles.container}>
         <Stack spacing={2}>
           <Typography>Sign in or register to get started!</Typography>
-          <Button onClick={() => signIn()} variant="contained">
-            Sign in
-          </Button>
-          <Link href="/register" passHref={true}>
+          <Link to="/auth/signin">
+            <Button variant="contained">Sign in</Button>
+          </Link>
+          <Link to="/register">
             <Button variant="contained">Register</Button>
           </Link>
         </Stack>
@@ -105,24 +91,28 @@ const Game = ({ cities, classes, races }: GameStaticProps) => {
           level: {user.level}
         </Typography>
         {user.quests.length > 0 && user.quests[0].type === "intro" ? (
-          <NewPlayerSetup cities={cities} races={races} classes={classes} />
+          <NewPlayerSetup
+            cities={cities ?? []}
+            races={races ?? []}
+            classes={classes ?? []}
+          />
         ) : (
           <>
             <Typography variant="h6">Welcome back!</Typography>
             <div>What would you like to do?</div>
             <Grid container flexDirection="column" spacing={1}>
               <Grid item>
-                <Link href="/game/travel" passHref={true}>
+                <Link to="/game/travel">
                   <Button variant="contained">Travel</Button>
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="/game/quests" passHref={true}>
+                <Link to="/game/quests">
                   <Button variant="contained">Quests</Button>
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="/game/skilling" passHref={true}>
+                <Link to="/game/skilling">
                   <Button variant="contained" disabled>
                     Skilling
                   </Button>

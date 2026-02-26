@@ -1,6 +1,5 @@
-import type { NextPage } from "next";
-import Head from "next/head";
 import { useEffect, useRef, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import * as d3 from "d3";
 import styles from "../styles/Home.module.css";
 import standardStyles from "../styles/Standard.module.css";
@@ -8,11 +7,10 @@ import { useGetCities, useGetUsers } from "../util/useGetUsers";
 import { groupBy } from "lodash";
 import { User } from "../types/user";
 import { isBrowser } from "react-device-detect";
-import MetaTags from "../components/meta";
 import mixpanel from "mixpanel-browser";
-import Link from "next/link";
+import { Link } from "react-router-dom";
 
-const Home: NextPage = () => {
+const Home = () => {
   const ref = useRef<SVGSVGElement | null>(null);
   const { users, isError } = useGetUsers();
   const { cities } = useGetCities();
@@ -39,13 +37,45 @@ const Home: NextPage = () => {
 
   return (
     <div className={styles.container}>
-      <Head>
+      <Helmet>
         <title>The Temporary Plane</title>
-        <MetaTags />
         <link rel="icon" href="/favicon.ico" />
-      </Head>
+        <meta
+          name="description"
+          content="Immerse yourself in an ever-changing and ever-growing game space catered and created by you."
+        />
+        <meta itemProp="name" content="The Temporary Plane" />
+        <meta
+          itemProp="description"
+          content="Immerse yourself in an ever-changing and ever-growing game space catered and created by you."
+        />
+        <meta itemProp="image" content="https://thetemporaryplane.com/map.jpg" />
+        <meta property="og:url" content="https://thetemporaryplane.com" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="The Temporary Plane" />
+        <meta
+          property="og:description"
+          content="Immerse yourself in an ever-changing and ever-growing game space catered and created by you."
+        />
+        <meta property="og:image" content="https://thetemporaryplane.com/map.jpg" />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content="The Temporary Plane" />
+        <meta
+          name="twitter:description"
+          content="Immerse yourself in an ever-changing and ever-growing game space catered and created by you."
+        />
+        <meta name="twitter:image" content="https://thetemporaryplane.com/map.jpg" />
+        <meta property="og:image:type" content="image/jpeg" />
+        <meta property="og:image:width" content="600" />
+        <meta property="og:image:height" content="250" />
+        <meta property="og:image:alt" content="The map of The Temporary Plane" />
+        <meta name="og:locale" content="en_US" />
+      </Helmet>
 
-      <header className={styles.hero}>
+      <header
+        className={styles.hero}
+        style={{ backgroundImage: "url('/space-background.jpg')" }}
+      >
         <div className={styles.heroContainer}>
           <h1 className={styles.title}>Welcome to The Temporary Plane</h1>
 
@@ -173,7 +203,7 @@ const Home: NextPage = () => {
           <div className={styles.howToTitle}>
             <p>How do I play?</p>
             <p>You can get started by playing through our basic web portal.</p>
-            <Link href="/game" passHref={true}>
+            <Link to="/game">
               <div className={standardStyles.btn}>Play now</div>
             </Link>
             <p className={styles.playSubText}>

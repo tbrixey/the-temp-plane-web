@@ -1,8 +1,9 @@
 import styles from "../../styles/Game.module.css";
-import { useSession } from "next-auth/react";
+import { useSession } from "../../contexts/authContext";
 import {
   Box,
   Button,
+  CircularProgress,
   FormControl,
   FormControlLabel,
   InputLabel,
@@ -12,34 +13,22 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { GetServerSideProps } from "next";
 import axios from "axios";
 import { Location } from "../../types/location";
 import { useContext, useEffect, useState } from "react";
 import userContext from "../../util/userContext";
-import { useRouter } from "next/router";
+import { useNavigate } from "react-router-dom";
 import { useSnackbar } from "notistack";
+import { useGetStartingCities } from "../../util/useGetStarting";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
-interface GameStaticProps {
-  cities: Location[];
-}
-
-export const getStaticProps: GetServerSideProps<GameStaticProps> = async () => {
-  const { data: cityRes } = await axios.get(BASE_URL + "cities");
-
-  return {
-    props: {
-      cities: cityRes.data,
-    },
-  };
-};
-
-const PlayerTravel = ({ cities }: { cities: Location[] }) => {
+const PlayerTravel = () => {
   const { data: session } = useSession();
-  const router = useRouter();
-  const { user, setUser } = useContext(userContext);
+  const navigate = useNavigate();
+  const { user } = useContext(userContext);
+
+  const { cities, isLoading } = useGetStartingCities();
 
   const [selectedLocation, setSelectedLocation] = useState("");
   const [searchByText, setSearchByText] = useState(false);
@@ -52,7 +41,7 @@ const PlayerTravel = ({ cities }: { cities: Location[] }) => {
 
   useEffect(() => {
     if (!session) {
-      router.push("/game");
+      navigate("/game");
     }
   });
 
@@ -90,6 +79,21 @@ const PlayerTravel = ({ cities }: { cities: Location[] }) => {
         enqueueSnackbar("Error starting travel time, try again later.");
       });
   };
+
+  if (isLoading || !cities) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <CircularProgress />
+      </div>
+    );
+  }
 
   if (!user) {
     return <div>error can not find user. Please go back to /game</div>;
