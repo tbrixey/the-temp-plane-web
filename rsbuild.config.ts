@@ -9,7 +9,12 @@ export default defineConfig({
     entry: {
       index: "./src/entry.tsx",
     },
-    define: publicVars,
+    define: {
+      ...publicVars,
+      "process.env.NODE_ENV": JSON.stringify(
+        process.env.NODE_ENV || "production"
+      ),
+    },
   },
   html: {
     title: "The Temporary Plane",
