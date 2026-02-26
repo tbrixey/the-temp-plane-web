@@ -29,9 +29,6 @@ importers:
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
-      mixpanel-browser:
-        specifier: ^2.54.0
-        version: 2.75.0(@mixpanel/rrweb-utils@2.0.0-alpha.18.3)
       notistack:
         specifier: ^3.0.2
         version: 3.0.2(csstype@3.2.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -66,9 +63,6 @@ importers:
       '@types/lodash':
         specifier: ^4.17.13
         version: 4.17.24
-      '@types/mixpanel-browser':
-        specifier: ^2.47.5
-        version: 2.47.5
       '@types/node':
         specifier: ^22.10.2
         version: 22.19.11
@@ -239,27 +233,6 @@ packages:
   '@humanwhocodes/retry@0.4.3':
     resolution: {integrity: sha512-bV0Tgo9K4hfPCek+aMAn81RppFKv2ySDQeMoSZuvTASywNTnVJCArCZE2FWqpvIatKu7VMRLWlR1EazvVhDyhQ==}
     engines: {node: '>=18.18'}
-
-  '@mixpanel/rrdom@2.0.0-alpha.18.3':
-    resolution: {integrity: sha512-FpQ/WJkVgb0kF49ebqtqf5F7dsqU/o9CfzPR8BAafzVQkieaPCRBFyLh8CDCtKKY0k8DJRqcamj388MLd6QJpQ==}
-
-  '@mixpanel/rrweb-plugin-console-record@2.0.0-alpha.18.3':
-    resolution: {integrity: sha512-xau4CixCli8HepZ5snLXQAgUYluGeQg2ZHlv7bRFQTPaA02YfOiwjF295ohMtVOI1VWkFxeK5uDeFnOb/S5Uow==}
-    peerDependencies:
-      '@mixpanel/rrweb': ^2.0.0-alpha.18
-      '@mixpanel/rrweb-utils': ^2.0.0-alpha.18
-
-  '@mixpanel/rrweb-snapshot@2.0.0-alpha.18.3':
-    resolution: {integrity: sha512-s+OONdR5WGpw3DapBMUeXvNGQAZuAr/VzkG+D6f/DsK2sV2PyibmrQJUZUSGYqB3pGGWzmJPO9BvqPBzfAZ5SA==}
-
-  '@mixpanel/rrweb-types@2.0.0-alpha.18.3':
-    resolution: {integrity: sha512-K6L0AQUm5SzW/nKbb68uFWwg1S+NlVt1QOW3YMROrpI0nhnntQmEfHnecjyPYE/s5MxH+kqW8bH5bVpT/uJa3A==}
-
-  '@mixpanel/rrweb-utils@2.0.0-alpha.18.3':
-    resolution: {integrity: sha512-5hvfIhYaSlpJYKQn4nK1s3Rv63UExMq5l1FtAKFXznCqsnVIEb+yICKOiESSzIRwrCxInnUvFOGCfNWBXy9QLw==}
-
-  '@mixpanel/rrweb@2.0.0-alpha.18.3':
-    resolution: {integrity: sha512-di3QfGmRleiDN85+E6OoJHCr/vq/wX9Z8l/Jt4mqHoLcbLEa46dkZ/qSgl4pYFby1Q6BKEwfwGIav15Ay7szlg==}
 
   '@module-federation/error-codes@0.22.0':
     resolution: {integrity: sha512-xF9SjnEy7vTdx+xekjPCV5cIHOGCkdn3pIxo9vU7gEZMIw0SvAEdsy6Uh17xaCpm8V0FWvR0SZoK9Ik6jGOaug==}
@@ -455,9 +428,6 @@ packages:
   '@tybys/wasm-util@0.10.1':
     resolution: {integrity: sha512-9tTaPJLSiejZKx+Bmog4uSubteqTvFrVrURwkmHixBo0G4seD0zUxp98E1DzUBJxLQ3NPwXrGKDiVjwx/DpPsg==}
 
-  '@types/css-font-loading-module@0.0.7':
-    resolution: {integrity: sha512-nl09VhutdjINdWyXxHWN/w9zlNCfr60JUqJbd24YXUuCwgeL0TpFSdElCwb6cxfB6ybE19Gjj4g0jsgkXxKv1Q==}
-
   '@types/d3-array@3.2.1':
     resolution: {integrity: sha512-Y2Jn2idRrLzUfAKV2LyRImR+y4oa2AntrgID95SHJxuMUrkNXmanDSed71sRNZysveJVt1hLLemQZIady0FpEg==}
 
@@ -563,9 +533,6 @@ packages:
   '@types/lodash@4.17.24':
     resolution: {integrity: sha512-gIW7lQLZbue7lRSWEFql49QJJWThrTFFeIMJdp3eH4tKoxm1OvEPg02rm4wCCSHS0cL3/Fizimb35b7k8atwsQ==}
 
-  '@types/mixpanel-browser@2.47.5':
-    resolution: {integrity: sha512-qEKrYSN4nUCPLU39YCoF2vszON0KUkPox0mFlrvhdq+amE44CB25+rdfZV4M9n3pEggXuRH+fbdP9qxthvyFUw==}
-
   '@types/node@22.19.11':
     resolution: {integrity: sha512-BH7YwL6rA93ReqeQS1c4bsPpcfOmJasG+Fkr6Y59q83f9M1WcBRHR2vM+P9eOisYRcN3ujQoiZY8uk5W+1WL8w==}
 
@@ -588,9 +555,6 @@ packages:
 
   '@types/react@18.3.28':
     resolution: {integrity: sha512-z9VXpC7MWrhfWipitjNdgCauoMLRdIILQsAEV+ZesIzBq/oUlxk0m3ApZuMFCXdnS4U7KrI+l3WRUEGQ8K1QKw==}
-
-  '@xstate/fsm@1.6.5':
-    resolution: {integrity: sha512-b5o1I6aLNeYlU/3CPlj/Z91ybk1gUsKT+5NAJI+2W4UjvS5KLG28K9v5UvNoFVjHV8PajVZ00RH3vnjyQO7ZAw==}
 
   acorn-jsx@5.3.2:
     resolution: {integrity: sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ==}
@@ -631,10 +595,6 @@ packages:
 
   balanced-match@1.0.2:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
-
-  base64-arraybuffer@1.0.2:
-    resolution: {integrity: sha512-I3yl4r9QB5ZRY3XuJVEPfc2XhZO6YweFPI+UovAzn+8/hb3oJ6lnysaFcjVpkCPfVWFUDvoZ8kmVDP7WyRtYtQ==}
-    engines: {node: '>= 0.6.0'}
 
   brace-expansion@1.1.11:
     resolution: {integrity: sha512-iCuPHDFgrHX7H2vEI/5xpz07zSHB00TpugqhmYtVmMO6518mCuRMoOYFldEBl0g187ufozdaHgWKcYFb61qGiA==}
@@ -1095,9 +1055,6 @@ packages:
   json-buffer@3.0.1:
     resolution: {integrity: sha512-4bV5BfR2mqfQTJm+V5tPPdf+ZpuhiIvTuAB5g8kcrXOZpTT/QwwVRWBywX1ozr6lEuPdbHxwaJlm9G6mI2sfSQ==}
 
-  json-logic-js@2.0.5:
-    resolution: {integrity: sha512-rTT2+lqcuUmj4DgWfmzupZqQDA64AdmYqizzMPWj3DxGdfFNsxPpcNVSaTj4l8W2tG/+hg7/mQhxjU3aPacO6g==}
-
   json-parse-even-better-errors@2.3.1:
     resolution: {integrity: sha512-xyFwyhro/JEof6Ghe2iz2NcXoj2sloNsWr/XsERDK/oiPCfaNhl5ONfp+jQdAZRQQ0IJWNzH9zIZF7li91kh2w==}
 
@@ -1149,20 +1106,8 @@ packages:
   minimatch@3.1.4:
     resolution: {integrity: sha512-twmL+S8+7yIsE9wsqgzU3E8/LumN3M3QELrBZ20OdmQ9jB2JvW5oZtBEmft84k/Gs5CG9mqtWc6Y9vW+JEzGxw==}
 
-  mitt@3.0.1:
-    resolution: {integrity: sha512-vKivATfr97l2/QBCYAkXYDbrIWPM2IIKEl7YPhjCvKlG3kE2gm+uBo6nEXK3M5/Ffh/FLpKExzOQ3JJoJGFKBw==}
-
-  mixpanel-browser@2.75.0:
-    resolution: {integrity: sha512-jii/M8lXgHHgJ922t+lvUPSuzYEnME1WlXr2Okak6XdZ1WlTv/L2EOnCWAyM750zoHA6kbJIN2XswoGLnaLPnw==}
-    engines: {node: '>=20 <26'}
-
   ms@2.1.2:
     resolution: {integrity: sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==}
-
-  nanoid@3.3.11:
-    resolution: {integrity: sha512-N8SpfPUnUp1bK+PMYW8qSWdl9U+wwNWI4QKxOYDy9JAro3WMX7p2OeVRF9v+347pnakNevPmiHhNmZ2HbFA76w==}
-    engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
-    hasBin: true
 
   natural-compare@1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
@@ -1212,13 +1157,6 @@ packages:
   path-type@4.0.0:
     resolution: {integrity: sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==}
     engines: {node: '>=8'}
-
-  picocolors@1.1.1:
-    resolution: {integrity: sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA==}
-
-  postcss@8.5.6:
-    resolution: {integrity: sha512-3Ybi1tAuwAP9s0r1UQ2J4n5Y0G05bJkpUIO0/bI9MhwmD70S5aTWbXGBwxHrelT+XM1k6dM0pk+SwNkpTRN7Pg==}
-    engines: {node: ^10 || ^12 || >=14}
 
   prelude-ls@1.2.1:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
@@ -1319,10 +1257,6 @@ packages:
   shebang-regex@3.0.0:
     resolution: {integrity: sha512-7++dFhtcx3353uBaq8DDR4NuxBetBzC7ZQOhmTQInHEd6bSrXdiEyzCvG07Z44UYdLShWUyXt5M/yhz8ekcb1A==}
     engines: {node: '>=8'}
-
-  source-map-js@1.2.1:
-    resolution: {integrity: sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==}
-    engines: {node: '>=0.10.0'}
 
   source-map@0.5.7:
     resolution: {integrity: sha512-LbrmJOMUSdEVxIKvdcJzQC+nQhe8FUZQTXQy6+I75skNgn3OoQ0DZA8YnFa7gp8tqtL3KPf1kmo0R5DoApeSGQ==}
@@ -1586,34 +1520,6 @@ snapshots:
 
   '@humanwhocodes/retry@0.4.3': {}
 
-  '@mixpanel/rrdom@2.0.0-alpha.18.3':
-    dependencies:
-      '@mixpanel/rrweb-snapshot': 2.0.0-alpha.18.3
-
-  '@mixpanel/rrweb-plugin-console-record@2.0.0-alpha.18.3(@mixpanel/rrweb-utils@2.0.0-alpha.18.3)(@mixpanel/rrweb@2.0.0-alpha.18.3)':
-    dependencies:
-      '@mixpanel/rrweb': 2.0.0-alpha.18.3
-      '@mixpanel/rrweb-utils': 2.0.0-alpha.18.3
-
-  '@mixpanel/rrweb-snapshot@2.0.0-alpha.18.3':
-    dependencies:
-      postcss: 8.5.6
-
-  '@mixpanel/rrweb-types@2.0.0-alpha.18.3': {}
-
-  '@mixpanel/rrweb-utils@2.0.0-alpha.18.3': {}
-
-  '@mixpanel/rrweb@2.0.0-alpha.18.3':
-    dependencies:
-      '@mixpanel/rrdom': 2.0.0-alpha.18.3
-      '@mixpanel/rrweb-snapshot': 2.0.0-alpha.18.3
-      '@mixpanel/rrweb-types': 2.0.0-alpha.18.3
-      '@mixpanel/rrweb-utils': 2.0.0-alpha.18.3
-      '@types/css-font-loading-module': 0.0.7
-      '@xstate/fsm': 1.6.5
-      base64-arraybuffer: 1.0.2
-      mitt: 3.0.1
-
   '@module-federation/error-codes@0.22.0': {}
 
   '@module-federation/runtime-core@0.22.0':
@@ -1812,8 +1718,6 @@ snapshots:
       tslib: 2.8.1
     optional: true
 
-  '@types/css-font-loading-module@0.0.7': {}
-
   '@types/d3-array@3.2.1': {}
 
   '@types/d3-axis@3.0.6':
@@ -1939,8 +1843,6 @@ snapshots:
 
   '@types/lodash@4.17.24': {}
 
-  '@types/mixpanel-browser@2.47.5': {}
-
   '@types/node@22.19.11':
     dependencies:
       undici-types: 6.21.0
@@ -1963,8 +1865,6 @@ snapshots:
     dependencies:
       '@types/prop-types': 15.7.11
       csstype: 3.2.3
-
-  '@xstate/fsm@1.6.5': {}
 
   acorn-jsx@5.3.2(acorn@8.16.0):
     dependencies:
@@ -2013,8 +1913,6 @@ snapshots:
       resolve: 1.22.8
 
   balanced-match@1.0.2: {}
-
-  base64-arraybuffer@1.0.2: {}
 
   brace-expansion@1.1.11:
     dependencies:
@@ -2496,8 +2394,6 @@ snapshots:
 
   json-buffer@3.0.1: {}
 
-  json-logic-js@2.0.5: {}
-
   json-parse-even-better-errors@2.3.1: {}
 
   json-schema-traverse@0.4.1: {}
@@ -2543,19 +2439,7 @@ snapshots:
     dependencies:
       brace-expansion: 1.1.11
 
-  mitt@3.0.1: {}
-
-  mixpanel-browser@2.75.0(@mixpanel/rrweb-utils@2.0.0-alpha.18.3):
-    dependencies:
-      '@mixpanel/rrweb': 2.0.0-alpha.18.3
-      '@mixpanel/rrweb-plugin-console-record': 2.0.0-alpha.18.3(@mixpanel/rrweb-utils@2.0.0-alpha.18.3)(@mixpanel/rrweb@2.0.0-alpha.18.3)
-      json-logic-js: 2.0.5
-    transitivePeerDependencies:
-      - '@mixpanel/rrweb-utils'
-
   ms@2.1.2: {}
-
-  nanoid@3.3.11: {}
 
   natural-compare@1.4.0: {}
 
@@ -2605,14 +2489,6 @@ snapshots:
   path-parse@1.0.7: {}
 
   path-type@4.0.0: {}
-
-  picocolors@1.1.1: {}
-
-  postcss@8.5.6:
-    dependencies:
-      nanoid: 3.3.11
-      picocolors: 1.1.1
-      source-map-js: 1.2.1
 
   prelude-ls@1.2.1: {}
 
@@ -2705,8 +2581,6 @@ snapshots:
       shebang-regex: 3.0.0
 
   shebang-regex@3.0.0: {}
-
-  source-map-js@1.2.1: {}
 
   source-map@0.5.7: {}
 

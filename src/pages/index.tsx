@@ -7,7 +7,6 @@ import { useGetCities, useGetUsers } from "../util/useGetUsers";
 import { groupBy } from "lodash";
 import { User } from "../types/user";
 import { isBrowser } from "react-device-detect";
-import mixpanel from "mixpanel-browser";
 import { Link } from "react-router-dom";
 
 const Home = () => {
@@ -30,10 +29,6 @@ const Home = () => {
     }
   }, [users]);
 
-  useEffect(() => {
-    mixpanel.init("65716fe117ed3663f98a6ae5abcd68d3", { debug: true });
-    mixpanel.track("landing-page-view");
-  }, []);
 
   return (
     <div className={styles.container}>
