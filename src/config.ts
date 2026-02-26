@@ -6,5 +6,5 @@ export const config = {
     : "https://ttp.trevorbrixey.com/game", // Production URL - adjust as needed
   apiUrl: isDev
     ? "http://localhost:8080/gameapi/"
-    : "https://ttpapi.trevorbrixey.com/gameapi/", // Production API URL - adjust as needed
+    : "https://temporary-plane-f98iv.ondigitalocean.app/gameapi/", // Production API URL - adjust as needed
 };
