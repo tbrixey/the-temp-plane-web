@@ -8,7 +8,6 @@ import {
   Typography,
 } from "@mui/material";
 import { NewPlayerSetup } from "../../components/newPlayerSetup";
-import axios from "axios";
 import { useContext, useEffect } from "react";
 import userContext from "../../util/userContext";
 import {
@@ -16,12 +15,11 @@ import {
   useGetClasses,
   useGetRaces,
 } from "../../util/useGetStarting";
-
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+import { gameApi, setGameApiAuth } from "../../util/gameApiClient";
 
 const Game = () => {
   const { data: session } = useSession();
-  const { signIn, signOut } = useAuth();
+  const { signOut } = useAuth();
   const { user, setUser } = useContext(userContext);
 
   const { cities } = useGetStartingCities();
@@ -30,20 +28,11 @@ const Game = () => {
 
   useEffect(() => {
     async function fetchData() {
-      axios.defaults.headers.common["Authorization"] =
-        "Bearer " + session?.user.data.apiKey;
-      const res = await axios.post(
-        BASE_URL + "authorizePlayer",
-        { apiKey: session?.user.data.apiKey },
-        {
-          headers: {
-            accept: "*/*",
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      const user = res.data.data;
-      setUser(user);
+      setGameApiAuth(session!.user.data.apiKey);
+      const res = await gameApi.post("authorizePlayer", {
+        apiKey: session!.user.data.apiKey,
+      });
+      setUser(res.data.data);
     }
     if (session) {
       fetchData();
@@ -105,9 +94,7 @@ const Game = () => {
               </Grid>
               <Grid item>
                 <Link to="/game/skilling">
-                  <Button variant="contained" disabled>
-                    Skilling
-                  </Button>
+                  <Button variant="contained">Skilling</Button>
                 </Link>
               </Grid>
             </Grid>

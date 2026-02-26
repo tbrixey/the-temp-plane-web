@@ -1,8 +1,10 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { User } from "../types/user";
+import { config } from "../config";
+import { setGameApiAuth } from "../util/gameApiClient";
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+const BASE_URL = config.apiUrl;
 const STORAGE_KEY = "ttp_session";
 
 export interface Session {
@@ -25,6 +27,7 @@ const AuthContext = createContext<AuthContextType>({
   isLoading: true,
   signIn: async () => {},
   signOut: () => {},
+  navigate: () => {},
 });
 
 export const AuthProvider = ({ children, navigate }: { children: React.ReactNode; navigate: (path: string) => void }) => {
@@ -36,8 +39,7 @@ export const AuthProvider = ({ children, navigate }: { children: React.ReactNode
     if (stored) {
       try {
         const parsed: Session = JSON.parse(stored);
-        axios.defaults.headers.common["Authorization"] =
-          "Bearer " + parsed.user.accessToken;
+        setGameApiAuth(parsed.user.accessToken);
         setSession(parsed);
       } catch {
         localStorage.removeItem(STORAGE_KEY);
@@ -65,7 +67,7 @@ export const AuthProvider = ({ children, navigate }: { children: React.ReactNode
         accessToken: apiKey,
       },
     };
-    axios.defaults.headers.common["Authorization"] = "Bearer " + apiKey;
+    setGameApiAuth(apiKey);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(newSession));
     setSession(newSession);
     if (callbackUrl) {

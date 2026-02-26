@@ -1,10 +1,9 @@
 import useSWR from "swr";
 import axios from "axios";
+import { config } from "../config";
 
 const fetcher = async (url: string) => {
-  const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
-
-  return await axios.get(BASE_URL + url).then((res) => res.data.data);
+  return await axios.get(config.apiUrl + url).then((res) => res.data.data);
 };
 
 export const useGetUsers = () => {

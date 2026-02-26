@@ -7,7 +7,6 @@ import {
   Select,
   Typography,
 } from "@mui/material";
-import axios from "axios";
 import { find } from "lodash";
 import { Link } from "react-router-dom";
 import { useState } from "react";
@@ -15,8 +14,7 @@ import { Classes } from "../types/classes";
 import { Location } from "../types/location";
 import { Races } from "../types/races";
 import { useSession } from "../contexts/authContext";
-
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+import { gameApi, setGameApiAuth } from "../util/gameApiClient";
 
 interface NewPlayerSetupProps {
   cities: Location[];
@@ -38,22 +36,11 @@ export const NewPlayerSetup = ({
   const submitPlayerRegistration = async () => {
     if (session) {
       setSubmit({ current: "progress" });
-      const userId = session.user.data.apiKey;
-      axios.defaults.headers.common["Authorization"] = "Bearer " + userId;
-      axios.defaults.headers.common["accept"] = "*/*";
+      setGameApiAuth(session.user.data.apiKey);
 
-      await axios.post(BASE_URL + `class/${selectedClass}`).then((res) => {
-        console.log("Added player Class");
-      });
-      await axios.post(BASE_URL + `race/${selectedRace}`).then((res) => {
-        console.log("Added player Race");
-      });
-      await axios.post(BASE_URL + `city/${selectedLocation}`).then((res) => {
-        console.log("Added player City");
-      });
-      await axios.get(BASE_URL + `quests`).then((res) => {
-        console.log("Quest List", res.data);
-      });
+      await gameApi.post(`class/${selectedClass}`);
+      await gameApi.post(`race/${selectedRace}`);
+      await gameApi.post(`city/${selectedLocation}`);
       setSubmit({ current: "done" });
     }
   };

@@ -12,15 +12,13 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import axios from "axios";
 import { Location } from "../../types/location";
 import { useContext, useEffect, useState } from "react";
 import userContext from "../../util/userContext";
 import { useNavigate } from "react-router-dom";
 import { useSnackbar } from "notistack";
 import { useGetStartingCities } from "../../util/useGetStarting";
-
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+import { gameApi } from "../../util/gameApiClient";
 
 const PlayerTravel = () => {
   const { data: session } = useSession();
@@ -46,36 +44,34 @@ const PlayerTravel = () => {
 
   const getTravelTime = async () => {
     setTravelTime({ message: "", loading: true });
-    await axios
-      .get(BASE_URL + `travel/${selectedLocation}`)
+    await gameApi
+      .get(`travel/${selectedLocation}`)
       .then((res) => {
-        if (res.data.message) {
-          return enqueueSnackbar(res.data.message);
-        }
-        setTravelTime({ message: res.data.data.message, loading: false });
+        setTravelTime({ message: res.data.message, loading: false });
       })
-      .catch((error: any) => {
-        console.warn("Error getting travel time", error.response);
-        if (error.response.data.data.message) {
-          enqueueSnackbar(
-            error.response.data.data.message + " try refreshing."
-          );
-        } else {
-          enqueueSnackbar("Error getting travel time, try again later.");
-        }
+      .catch((error) => {
+        const msg =
+          error.response?.data?.message ??
+          "Error getting travel time, try again later.";
+        enqueueSnackbar(msg);
+        setTravelTime({ message: "", loading: false });
       });
   };
 
   const startTraveling = async () => {
     setTraveling({ loading: true });
-    await axios
-      .post(BASE_URL + `travel/${selectedLocation}`)
+    await gameApi
+      .post(`travel/${selectedLocation}`)
       .then((res) => {
-        setTravelTime({ message: res.data.data.message, loading: true });
+        setTravelTime({ message: res.data.message, loading: true });
+        enqueueSnackbar(`Traveling! ${res.data.message}`);
       })
       .catch((error) => {
-        console.warn("Error starting travel time");
-        enqueueSnackbar("Error starting travel time, try again later.");
+        const msg =
+          error.response?.data?.message ??
+          "Error starting travel, try again later.";
+        enqueueSnackbar(msg);
+        setTraveling({ loading: false });
       });
   };
 
@@ -119,12 +115,10 @@ const PlayerTravel = () => {
             Cities you can travel to:
           </Typography>
           <FormControl variant="standard" sx={{ m: 1, minWidth: 200 }}>
-            <InputLabel id="demo-simple-select-standard-label">
-              Cities
-            </InputLabel>
+            <InputLabel id="travel-location-label">Cities</InputLabel>
             <Select
-              labelId="demo-simple-select-standard-label"
-              id="demo-simple-select-standard"
+              labelId="travel-location-label"
+              id="travel-location-select"
               value={selectedLocation}
               onChange={(event) => setSelectedLocation(event.target.value)}
               label="Cities"
@@ -142,7 +136,7 @@ const PlayerTravel = () => {
         <Button
           onClick={getTravelTime}
           variant="contained"
-          disabled={Boolean(travelTime.loading)}
+          disabled={!selectedLocation || travelTime.loading}
         >
           Get Travel Time
         </Button>
@@ -154,7 +148,7 @@ const PlayerTravel = () => {
             <Button
               variant="contained"
               onClick={startTraveling}
-              disabled={Boolean(traveling.loading)}
+              disabled={traveling.loading}
             >
               Travel
             </Button>

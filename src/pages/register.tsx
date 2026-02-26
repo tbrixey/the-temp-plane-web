@@ -17,8 +17,6 @@ export default function Register() {
 
   const registerUser = async () => {
     await axios.post(BASE_URL + `register/${username}`).then((res) => {
-      console.log(res);
-      console.log("RES", res);
       setApiKey(res.data.data.apiKey);
     });
   };

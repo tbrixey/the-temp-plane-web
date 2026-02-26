@@ -13,7 +13,7 @@ export interface User {
   gold: number;
   quests: {
     _id: string;
-    title: string;
+    name: string;
     description: string;
     type: "intro" | "fetch" | "explore" | "fight";
     goto?: string;
@@ -22,33 +22,9 @@ export interface User {
     tasks?: string[];
     active: boolean;
     rewards: {
-      gold: number;
-      xp: number;
-      items?: {
-        item: {
-          _id: any;
-          id: number;
-          name: string;
-          description: string;
-          effect?: {
-            hitpoints?: number;
-            speed?: number;
-            weight?: number;
-            time?: number;
-            stats?: {
-              str?: number;
-              dex?: number;
-              con?: number;
-              int?: number;
-              luck?: number;
-            };
-          };
-          type: "consumable" | "junk" | "equipment";
-          value: number;
-          weight: number;
-        };
-        count: number;
-      }[];
+      gold?: number;
+      xp?: number;
+      items?: { item: Item; count: number }[];
     };
   }[];
   updatedOn: Date;
