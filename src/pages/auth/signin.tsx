@@ -1,7 +1,6 @@
 import { Button, Stack, TextField } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styles from "../../styles/Login.module.css";
 import { useAuth } from "../../contexts/authContext";
 import { config } from "../../config";
 
@@ -21,7 +20,7 @@ export default function SignIn() {
   };
 
   return (
-    <div className={styles.container}>
+    <div className="p-0 flex flex-col justify-center items-center h-screen">
       <Stack spacing={2} style={{ width: 300 }}>
         <TextField
           value={apiKey}

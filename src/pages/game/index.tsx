@@ -1,4 +1,3 @@
-import styles from "../../styles/Game.module.css";
 import { useSession, useAuth } from "../../contexts/authContext";
 import { Link } from "react-router-dom";
 import {
@@ -53,7 +52,7 @@ const Game = () => {
 
   if (!session) {
     return (
-      <div className={styles.container}>
+      <div className="flex flex-col justify-center items-center h-screen">
         <Stack spacing={2}>
           <Typography>Sign in or register to get started!</Typography>
           <Link to="/auth/signin">
@@ -69,21 +68,14 @@ const Game = () => {
 
   if (!user) {
     return (
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100vh",
-        }}
-      >
+      <div className="flex justify-center items-center h-screen">
         <CircularProgress />
       </div>
     );
   }
 
   return (
-    <div className={styles.container}>
+    <div className="flex flex-col justify-center items-center h-screen">
       <div style={{ textAlign: "center" }}>
         Signed in as{" "}
         <Typography>

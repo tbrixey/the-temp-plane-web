@@ -1,13 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import * as d3 from "d3";
-import styles from "../styles/Home.module.css";
-import standardStyles from "../styles/Standard.module.css";
 import { useGetCities, useGetUsers } from "../util/useGetUsers";
 import { groupBy } from "lodash";
 import { User } from "../types/user";
 import { isBrowser } from "react-device-detect";
 import { Link } from "react-router-dom";
+import { btnClass } from "../styles/buttonClasses";
 
 const Home = () => {
   const ref = useRef<SVGSVGElement | null>(null);
@@ -15,11 +14,12 @@ const Home = () => {
   const { cities } = useGetCities();
   const [usersGrouped, setUsers] = useState<{ [key: string]: User[] }>();
 
-  const x = d3.scaleLinear().range([0, 100]);
+  // Match viewBox "0 0 135 100" so points align with the map image
+  const x = d3.scaleLinear().range([0, 135]);
   const y = d3.scaleLinear().range([100, 0]);
 
-  x.domain([-120, 120]);
-  y.domain([-110, 110]);
+  x.domain([-100, 100]);
+  y.domain([-100, 100]);
 
   useEffect(() => {
     if (users) {
@@ -29,9 +29,8 @@ const Home = () => {
     }
   }, [users]);
 
-
   return (
-    <div className={styles.container}>
+    <div className="p-0 block">
       <Helmet>
         <title>The Temporary Plane</title>
         <link rel="icon" href="/favicon.ico" />
@@ -44,7 +43,10 @@ const Home = () => {
           itemProp="description"
           content="Immerse yourself in an ever-changing and ever-growing game space catered and created by you."
         />
-        <meta itemProp="image" content="https://thetemporaryplane.com/map.jpg" />
+        <meta
+          itemProp="image"
+          content="https://thetemporaryplane.com/map.jpg"
+        />
         <meta property="og:url" content="https://thetemporaryplane.com" />
         <meta property="og:type" content="website" />
         <meta property="og:title" content="The Temporary Plane" />
@@ -52,37 +54,48 @@ const Home = () => {
           property="og:description"
           content="Immerse yourself in an ever-changing and ever-growing game space catered and created by you."
         />
-        <meta property="og:image" content="https://thetemporaryplane.com/map.jpg" />
+        <meta
+          property="og:image"
+          content="https://thetemporaryplane.com/map.jpg"
+        />
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:title" content="The Temporary Plane" />
         <meta
           name="twitter:description"
           content="Immerse yourself in an ever-changing and ever-growing game space catered and created by you."
         />
-        <meta name="twitter:image" content="https://thetemporaryplane.com/map.jpg" />
+        <meta
+          name="twitter:image"
+          content="https://thetemporaryplane.com/map.jpg"
+        />
         <meta property="og:image:type" content="image/jpeg" />
         <meta property="og:image:width" content="600" />
         <meta property="og:image:height" content="250" />
-        <meta property="og:image:alt" content="The map of The Temporary Plane" />
+        <meta
+          property="og:image:alt"
+          content="The map of The Temporary Plane"
+        />
         <meta name="og:locale" content="en_US" />
       </Helmet>
 
       <header
-        className={styles.hero}
+        className="text-center py-[20em] bg-[#202124] bg-cover bg-blend-overlay bg-fixed bg-no-repeat bg-center max-sm:py-[12em] max-sm:flex max-sm:justify-center"
         style={{ backgroundImage: "url('/space-background.jpg')" }}
       >
-        <div className={styles.heroContainer}>
-          <h1 className={styles.title}>Welcome to The Temporary Plane</h1>
+        <div className="z-30 max-sm:max-w-[90%]">
+          <h1 className="m-0 leading-[1.15] text-[4rem] font-extrabold text-center max-sm:text-[2.5rem]">
+            Welcome to The Temporary Plane
+          </h1>
 
-          <p className={styles.description}>
+          <p className="my-16 leading-[1.5] text-[1.5rem] text-center max-sm:text-[1.25rem]">
             Immerse yourself in an ever-changing and ever-growing game space
             catered and created by you.
           </p>
 
-          <div className={styles.heroButtonGroup}>
+          <div className="flex w-[60%] justify-center max-sm:w-full">
             <a
               href="https://discord.gg/6YAyH86TAa"
-              className={standardStyles.btn}
+              className={btnClass}
               target={"_blank"}
               rel="noreferrer"
             >
@@ -90,7 +103,7 @@ const Home = () => {
             </a>
             <a
               href="https://www.patreon.com/TheTemporaryPlane"
-              className={standardStyles.btn}
+              className={btnClass}
               target={"_blank"}
               rel="noreferrer"
             >
@@ -100,24 +113,28 @@ const Home = () => {
         </div>
       </header>
 
-      <main className={styles.main}>
+      <main className="min-h-screen px-8 py-8 flex-1 flex flex-col justify-center items-center max-sm:p-0">
         {isBrowser ? (
-          <div className={styles.mapContent}>
-            <p className={styles.mapTitle}>Live player map</p>
-            <p className={styles.mapDescription}>
+          <div className="w-full flex flex-col justify-center items-center">
+            <p className="text-[2rem] font-bold m-[0.5em] text-center max-sm:text-[1.5rem]">
+              Live player map
+            </p>
+            <p className="m-[0.5em] max-w-[40%] max-sm:text-sm max-sm:max-w-[90%] max-sm:text-center">
               This map shows all current player locations in The Temporary
               Plane. The plan is to make this map more interactable in the
               future.
             </p>
-            {isError && <p className={styles.errorText}>*error loading data</p>}
-            <div className={styles.map}>
+            {isError && (
+              <p className="text-xs font-normal">*error loading data</p>
+            )}
+            <div className="w-[70%] max-sm:w-full max-sm:text-center">
               <svg
                 ref={ref}
                 width="100%"
                 height="100%"
                 viewBox="0 0 135 100"
                 version="1.1"
-                className={styles.svg}
+                className="top-0 left-0"
               >
                 <g className="mapGroup">
                   <image
@@ -137,7 +154,6 @@ const Home = () => {
                             cx={x(loc.x)}
                             cy={y(loc.y)}
                             r={0.5}
-                            className={styles.locationDot}
                           ></circle>
                           <text
                             x={x(loc.x)}
@@ -145,7 +161,7 @@ const Home = () => {
                             textAnchor="middle"
                             fontSize={1.75}
                             fontWeight={700}
-                            className={styles.mapText}
+                            className="[text-shadow:0px_0px_6px_white] max-sm:[text-shadow:none] max-sm:text-[1.25rem]"
                           >
                             {loc.name}
                           </text>
@@ -155,7 +171,7 @@ const Home = () => {
                             textAnchor="middle"
                             fontWeight={500}
                             fontSize={1.25}
-                            className={styles.mapText}
+                            className="[text-shadow:0px_0px_6px_white] max-sm:[text-shadow:none] max-sm:text-[1.25rem]"
                           >
                             {usersGrouped[loc.name]
                               ? usersGrouped[loc.name].length
@@ -170,14 +186,18 @@ const Home = () => {
             </div>
           </div>
         ) : (
-          <div className={styles.mapContent}>
-            <p className={styles.mapTitle}>Live player locations</p>
-            <p className={styles.mapDescription}>
+          <div className="w-full flex flex-col justify-center items-center">
+            <p className="text-[2rem] font-bold m-[0.5em] text-center max-sm:text-[1.5rem]">
+              Live player locations
+            </p>
+            <p className="m-[0.5em] max-w-[40%] max-sm:text-sm max-sm:max-w-[90%] max-sm:text-center">
               This list shows all current player locations in The Temporary
               Plane.
             </p>
-            {isError && <p className={styles.errorText}>*error loading data</p>}
-            <div className={styles.mapText}>
+            {isError && (
+              <p className="text-xs font-normal">*error loading data</p>
+            )}
+            <div className="[text-shadow:0px_0px_6px_white] max-sm:[text-shadow:none] max-sm:text-[1.25rem]">
               {cities &&
                 usersGrouped &&
                 cities.map((loc: any) => {
@@ -194,38 +214,43 @@ const Home = () => {
             </div>
           </div>
         )}
-        <div className={styles.howToContent}>
-          <div className={styles.howToTitle}>
-            <p>How do I play?</p>
-            <p>You can get started by playing through our basic web portal.</p>
+        <div className="pt-[10em] pb-[5em] relative flex flex-col items-center max-w-[50%] text-[1.115rem] text-center max-sm:max-w-[90%]">
+          <div>
+            <p className="text-[2rem] font-bold pb-[1em]">How do I play?</p>
+            <p className="opacity-80">
+              You can get started by playing through our basic web portal.
+            </p>
             <Link to="/game">
-              <div className={standardStyles.btn}>Play now</div>
+              <div className={btnClass}>Play now</div>
             </Link>
-            <p className={styles.playSubText}>
+            <p className="text-[0.9rem] opacity-80">
               Sign in or Register to start playing. *ALPHA stage
             </p>
           </div>
-          <div className={styles.howToMain}>
-            <p>
+          <div>
+            <p className="my-[1em] opacity-80">
               The Temporary Plane runs purely on a web api so you can build your
               very own web portal or mobile application to play. You can even
               write an automation script to play your character!
             </p>
           </div>
         </div>
-        <div className={styles.faq}>
-          <div className={styles.howToTitle}>
-            <p>FAQ</p>
+        <div className="pb-[5em] flex flex-col items-center max-w-[50%] text-[1.115rem] text-center max-sm:max-w-[90%]">
+          <div>
+            <p className="text-[2rem] font-bold pb-[1em]">FAQ</p>
           </div>
-          <div className={styles.faqMain}>
-            <p className={styles.faqQ}>Is there a roadmap in place?</p>
-            <p className={styles.faqA}>
+          <div>
+            <p className="font-bold text-[1.25rem] py-[1em]">
+              Is there a roadmap in place?
+            </p>
+            <p className="text-base opacity-80">
               You can follow progress and see what is coming up next at our
               public{" "}
               <a
                 href="https://trello.com/b/tIEjLUYM/the-temporary-plane"
                 target="_blank"
                 rel="noreferrer"
+                className="underline text-[#b49461]"
               >
                 Trello board
               </a>
@@ -233,13 +258,17 @@ const Home = () => {
               more stuff added to the backlog often. If you think of something I
               am missing, let me know!
             </p>
-            <p className={styles.faqQ}>Do you have documentation?</p>
-            <p className={styles.faqA}>
+            <p className="font-bold text-[1.25rem] py-[1em]">
+              Do you have documentation?
+            </p>
+            <p className="text-base opacity-80">
               Not yet 😞 Documentation will be available at the time of full
               release. Some documentation will be available once beta hits.
             </p>
-            <p className={styles.faqQ}>I have a question</p>
-            <p className={styles.faqA}>
+            <p className="font-bold text-[1.25rem] py-[1em]">
+              I have a question
+            </p>
+            <p className="text-base opacity-80">
               Oh cool! Reach out to me on Discord or Twitter and I will do my
               best to answer it.
             </p>
@@ -247,7 +276,7 @@ const Home = () => {
         </div>
       </main>
 
-      <footer className={styles.footer}>
+      <footer className="flex flex-1 flex-col py-8 border-t border-[#eaeaea] justify-center items-center">
         <a
           href="https://twitter.com/TheTempPlane"
           target="_blank"

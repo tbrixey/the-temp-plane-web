@@ -1,4 +1,3 @@
-import styles from "../styles/Login.module.css";
 import { useState } from "react";
 import axios from "axios";
 import { Button, TextField, Typography } from "@mui/material";
@@ -42,9 +41,9 @@ export default function Register() {
   };
 
   return (
-    <div className={styles.container}>
+    <div className="p-0 flex flex-col justify-center items-center h-screen">
       Register your player name:
-      <div className={styles.main}>
+      <div className="flex flex-col">
         <TextField
           onChange={(e) => setUsername(e.target.value)}
           inputProps={{

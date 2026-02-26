@@ -1,4 +1,3 @@
-import styles from "../../styles/Game.module.css";
 import { useSession } from "../../contexts/authContext";
 import {
   Box,
@@ -82,14 +81,7 @@ const PlayerTravel = () => {
 
   if (isLoading || !cities) {
     return (
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100vh",
-        }}
-      >
+      <div className="flex justify-center items-center h-screen">
         <CircularProgress />
       </div>
     );
@@ -100,7 +92,7 @@ const PlayerTravel = () => {
   }
 
   return (
-    <div className={styles.container}>
+    <div className="flex flex-col justify-center items-center h-screen">
       <FormControlLabel
         control={
           <Switch

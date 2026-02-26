@@ -1,4 +1,3 @@
-import styles from "../../styles/Game.module.css";
 import { useSession } from "../../contexts/authContext";
 import {
   Button,
@@ -58,7 +57,7 @@ const PlayerQuests = () => {
   console.log("QUESTS", availableQuests);
 
   return (
-    <div className={styles.container}>
+    <div className="flex flex-col justify-center items-center h-screen">
       {user.location && user.location.type === "city" ? (
         <>
           <Typography style={{ textAlign: "center" }}>
