@@ -17,7 +17,7 @@ import { useContext, useEffect, useState } from "react";
 import userContext from "../../util/userContext";
 import { useNavigate } from "react-router-dom";
 import { useSnackbar } from "notistack";
-import { useGetStartingCities } from "../../util/useGetStarting";
+import { useGetLocations } from "../../util/useGetStarting";
 import { gameApi } from "../../util/gameApiClient";
 
 const PlayerTravel = () => {
@@ -25,7 +25,7 @@ const PlayerTravel = () => {
   const navigate = useNavigate();
   const { user } = useContext(userContext);
 
-  const { cities, isLoading } = useGetStartingCities();
+  const { locations, isLoading } = useGetLocations();
 
   const [selectedLocation, setSelectedLocation] = useState("");
   const [searchByText, setSearchByText] = useState(false);
@@ -34,7 +34,9 @@ const PlayerTravel = () => {
 
   const { enqueueSnackbar } = useSnackbar();
   const locationsToTravelTo =
-    cities && cities.filter((c: Location) => c._id !== user?.location._id);
+    locations && user?.location
+      ? locations.filter((c: Location) => c._id !== user.location._id)
+      : locations ?? [];
 
   useEffect(() => {
     if (!session) {
@@ -75,7 +77,7 @@ const PlayerTravel = () => {
       });
   };
 
-  if (isLoading || !cities) {
+  if (isLoading || !locations) {
     return (
       <div className="flex justify-center items-center h-screen">
         <CircularProgress />
@@ -112,16 +114,16 @@ const PlayerTravel = () => {
       ) : (
         <>
           <Typography style={{ textAlign: "center" }}>
-            Cities you can travel to:
+            Locations you can travel to:
           </Typography>
           <FormControl variant="standard" sx={{ m: 1, minWidth: 200 }}>
-            <InputLabel id="travel-location-label">Cities</InputLabel>
+            <InputLabel id="travel-location-label">Location</InputLabel>
             <Select
               labelId="travel-location-label"
               id="travel-location-select"
               value={selectedLocation}
               onChange={(event) => setSelectedLocation(event.target.value)}
-              label="Cities"
+              label="Location"
             >
               {locationsToTravelTo.map((item, idx: number) => (
                 <MenuItem key={item.name + idx} value={item.name}>

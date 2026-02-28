@@ -59,7 +59,7 @@ Authorization: Bearer <your-api-key>
   "data": {
     "playerName": "playerName",
     "apiKey": "generated-api-key",
-    "message": "Player created! Pick a class using /api/class/<classname>",
+    "message": "Player created! Pick a class using /gameapi/class/<classname>",
     "quests": { questObject }
   }
 }
@@ -148,13 +148,13 @@ Authorization: Bearer <your-api-key>
 
 **Endpoint:** `GET /gameapi/cities`
 
-**Description:** Retrieves a list of all cities in the game world.
+**Description:** Retrieves a list of locations in the game world, with optional filters.
 
 **Query Parameters:**
 
-- `name` (optional, string): Filter by city name (case-insensitive regex)
+- `name` (optional, string): Filter by location name (case-insensitive regex)
 - `population` (optional, number): Filter by population
-- `type` (optional, string): Filter by type (defaults to "city")
+- `type` (optional, string): Filter by type (e.g. `city`, `town`, `village`, `outpost`, `poi`)
 
 **Response (Success - 200):**
 
@@ -162,14 +162,54 @@ Authorization: Bearer <your-api-key>
 {
   "data": [
     {
-      "_id": "cityId",
-      "name": "City Name",
-      "population": 1000,
-      "type": "city"
+      "_id": "locationId",
+      "name": "Solstice",
+      "description": "The beating heart of the known world. Enormous, noisy, and always at least a little on fire somewhere.",
+      "type": "city",
+      "x": 0,
+      "y": 0,
+      "population": 125400
+    },
+    {
+      "_id": "locationId",
+      "name": "Oakhaven",
+      "description": "A tidy lumber town with suspiciously well-organized woodpiles and a carpenter who will absolutely tell you about them.",
+      "type": "town",
+      "x": -35,
+      "y": 20,
+      "population": 1204
     }
   ]
 }
 ```
+
+**Note:** Seed data includes types: `city`, `town`, `village`, `outpost`.
+
+---
+
+### 5b. Get Locations
+
+**Endpoint:** `GET /gameapi/locations`
+
+**Description:** Retrieves all locations in the game world (no query filters).
+
+**Response (Success - 200):**
+
+```json
+[
+  {
+    "_id": "locationId",
+    "name": "Udame",
+    "description": "A windswept fishing town on the eastern coast. The locals are suspicious of anyone who doesn't smell like salt and regret.",
+    "type": "town",
+    "x": 80,
+    "y": 10,
+    "population": 524
+  }
+]
+```
+
+**Note:** Response is a raw array, not wrapped in `data`. Use this when you need the full list for travel or discovery.
 
 ---
 
@@ -185,21 +225,45 @@ Authorization: Bearer <your-api-key>
 {
   "data": [
     {
-      "name": "Fighter",
-      "str": 1,
-      "con": 1,
-      "speed": 0,
-      "weight": 0
+      "name": "Warrior",
+      "description": "The bread and butter of any party...",
+      "weight": 200,
+      "speed": 50,
+      "bonus": "Can wear heavy armor without complaining."
     },
     {
       "name": "Rogue",
-      "dex": 2,
-      "speed": 0,
-      "weight": 0
+      "description": "A professional shadow-stayer...",
+      "weight": 100,
+      "speed": 90,
+      "bonus": "Higher chance to 'find' things..."
+    },
+    {
+      "name": "Wizard",
+      "description": "A glass cannon made of old paper...",
+      "weight": 80,
+      "speed": 75,
+      "bonus": "Occasionally remembers where they put their spellbook."
+    },
+    {
+      "name": "Paladin",
+      "description": "A warrior with a moral compass...",
+      "weight": 260,
+      "speed": 30,
+      "bonus": "Naturally glows in the dark..."
+    },
+    {
+      "name": "Ranger",
+      "description": "Likes trees more than people...",
+      "weight": 150,
+      "speed": 65,
+      "bonus": "Can talk to squirrels..."
     }
   ]
 }
 ```
+
+**Available classes:** Warrior, Rogue, Wizard, Paladin, Ranger
 
 ---
 
@@ -217,15 +281,18 @@ Authorization: Bearer <your-api-key>
     {
       "_id": "raceId",
       "name": "Human",
-      "str": 0,
-      "con": 0,
-      "dex": 0,
-      "int": 0,
-      "luck": 0
+      "description": "Just a normal human. Remarkably average at everything..."
+    },
+    {
+      "_id": "raceId",
+      "name": "Elf",
+      "description": "Pointy-eared vegetarians who live way too long..."
     }
   ]
 }
 ```
+
+**Available races:** Human, Elf, Dwarf, Halfling, Orc, Gnome
 
 ---
 
@@ -235,19 +302,11 @@ Authorization: Bearer <your-api-key>
 
 **Endpoint:** `POST /gameapi/class/:className`
 
-**Description:** Assigns a class to the player and applies stat bonuses.
+**Description:** Assigns a class to the player. The class's `weight` and `speed` are applied to the player.
 
 **Path Parameter:**
 
-- `className` (string): Name of the class to register
-
-**Stat Bonuses by Class:**
-
-- **Fighter:** +1 STR, +1 CON
-- **Rogue:** +2 DEX
-- **Mage:** +2 INT
-- **Cleric:** +1 INT, +1 LUCK
-- **Ranger:** +1 DEX, +1 CON
+- `className` (string): Name of the class to register. Must be one of: **Warrior**, **Rogue**, **Wizard**, **Paladin**, **Ranger**
 
 **Response (Success - 200):**
 
@@ -291,7 +350,7 @@ Authorization: Bearer <your-api-key>
 ```json
 {
   "data": { playerObject },
-  "message": "Race selected! Pick a starting city /api/city/<racename>"
+  "message": "Race selected! Pick a starting city /api/city/<cityId>"
 }
 ```
 
@@ -358,7 +417,7 @@ Authorization: Bearer <your-api-key>
 {
   "data": {
     "playerName": "playerName",
-    "class": "Fighter"
+    "class": "Warrior"
     // ... other player data
   }
 }
@@ -443,12 +502,11 @@ Authorization: Bearer <your-api-key>
 
 **Item Types:**
 
-- **Consumable:** Can be used for healing or stat effects
-  - **Hitpoints:** Restores HP (capped at max)
-  - **Stats:** Temporary stat boost
-  - **Speed:** Temporary speed boost
-  - **Weight:** Temporary weight reduction
-- **Junk:** Cannot be used
+- **Consumable:** Can be used for healing or skill/stat effects
+  - **Hitpoints:** Restores HP (e.g. Minor Health Potion)
+  - **Skill boost:** Temporary skill bonus (e.g. Miner's Mud: +5 mining for 10 min)
+  - **Speed:** Temporary speed boost (e.g. Zoom Juice)
+  - **Weight:** Temporary weight reduction (e.g. Mule's Milk)
 
 **Response (Success - 200):**
 
@@ -471,6 +529,97 @@ Authorization: Bearer <your-api-key>
 ```json
 {
   "message": "You searched everywhere, but can not find this item."
+}
+```
+
+---
+
+### 13b. Sell Item
+
+**Endpoint:** `POST /gameapi/item/sell/:itemId`
+
+**Description:** Sells one or more of an item from the player's bag for gold based on the item's `value`.
+
+**Path Parameter:**
+
+- `itemId` (string): MongoDB ObjectId of the item to sell
+
+**Request Body (optional):**
+
+```json
+{
+  "count": 1
+}
+```
+
+- `count` (optional, integer, default 1): Number of that item to sell. Must be ≤ bag count.
+
+**Response (Success - 200):**
+
+```json
+{
+  "message": "You sold 1x Pine Wood for 8 gold.",
+  "goldEarned": 8
+}
+```
+
+**Response (Error - 400):**
+
+```json
+{
+  "message": "You searched everywhere, but can not find this item."
+}
+```
+
+**Response (Error - 400):**
+
+```json
+{
+  "message": "You only have 2 of that item."
+}
+```
+
+---
+
+### 13c. Record Kill
+
+**Endpoint:** `POST /gameapi/kill/:monsterName`
+
+**Description:** Records a monster kill for the current player. The player must be at the monster's location. Kill counts are used for kill-type quest completion.
+
+**Path Parameter:**
+
+- `monsterName` (string, URL-encoded): Name of the monster to kill (e.g. `Aggressive%20Pigeon`)
+
+**Known monsters and their locations:**
+| Monster | Location |
+|---|---|
+| Aggressive Pigeon | Solstice Plaza |
+| Sentient Dust Bunny | Shady Alley |
+| Buff Rat | Solstice Sewers |
+
+**Response (Success - 200):**
+
+```json
+{
+  "message": "You defeated a Aggressive Pigeon!",
+  "kills": 1
+}
+```
+
+**Response (Error - 400):**
+
+```json
+{
+  "message": "Aggressive Pigeon is not here. Try heading to Solstice Plaza."
+}
+```
+
+**Response (Error - 404):**
+
+```json
+{
+  "message": "Unknown monster: SomeName"
 }
 ```
 
@@ -506,7 +655,7 @@ Authorization: Bearer <your-api-key>
 
 ```json
 {
-  "message": "Location not found. Check for locations using '/api/locations'"
+  "message": "Location not found. Check for locations using '/gameapi/locations'"
 }
 ```
 
@@ -557,7 +706,7 @@ travelTime = (distance / 2) / speed
 
 ```json
 {
-  "message": "Location not found. Check for locations using '/api/locations'"
+  "message": "Location not found. Check for locations using '/gameapi/locations'"
 }
 ```
 
@@ -582,11 +731,11 @@ travelTime = (distance / 2) / speed
 
 **Endpoint:** `GET /gameapi/quests`
 
-**Description:** Retrieves available quests.
+**Description:** Retrieves available quests. Requires player to be in a city.
 
 **Query Parameters:**
 
-- `type` (optional, string): Filter by quest type (`fetch` or `explore`)
+- `type` (optional, string): Filter by quest type (`fetch`, `explore`, or `kill`). When omitted, all non-intro quests are returned.
 
 **Response (Success - 200):**
 
@@ -594,17 +743,37 @@ travelTime = (distance / 2) / speed
 [
   {
     "_id": "questId",
-    "name": "Quest Name",
-    "description": "Quest description",
+    "title": "The Heavy Lifting",
+    "description": "Fetch some Rusty Iron Ore from the Solstice Mine and bring it to the Forge.",
     "type": "fetch",
     "active": true,
+    "goto": "Solstice Mine",
     "acquire": { itemObject },
-    "rewards": { itemsArray }
+    "location": "Solstice Forge",
+    "rewards": { "gold": 50, "xp": 100, "items": [{ "item": { itemObject }, "count": 1 }] }
+  },
+  {
+    "_id": "questId",
+    "title": "The Scenic Route",
+    "description": "Visit The High Spire.",
+    "type": "explore",
+    "location": "The High Spire",
+    "rewards": { "gold": 20, "xp": 50 }
+  },
+  {
+    "_id": "questId",
+    "title": "Pigeon Patrol",
+    "description": "The local statues are suffering. Thin out the pigeon population at the Plaza.",
+    "type": "kill",
+    "target": "Aggressive Pigeon",
+    "count": 5,
+    "location": "Solstice Plaza",
+    "rewards": { "gold": 40, "xp": 120 }
   }
 ]
 ```
 
-**Note:** Quests with type `intro` are excluded by default.
+**Quest types:** `intro`, `fetch`, `explore`, `kill`. Quests with type `intro` are excluded by default. `rewards` may include `gold`, `xp`, and `items` (array of `{ item, count }`). Fetch quests have `goto`, `acquire`, `location`; explore quests have `location`; kill quests have `target`, `count`, `location`.
 
 ---
 
@@ -612,11 +781,11 @@ travelTime = (distance / 2) / speed
 
 **Endpoint:** `POST /gameapi/quests/:questId`
 
-**Description:** Accepts a quest and adds it to the player's quest list.
+**Description:** Accepts a quest and adds it to the player's quest list. Requires player to be in a city.
 
 **Path Parameter:**
 
-- `questId` (integer): ID of the quest to accept
+- `questId` (string): MongoDB ObjectId of the quest to accept
 
 **Response (Success - 200):**
 
@@ -650,7 +819,7 @@ travelTime = (distance / 2) / speed
 
 **Path Parameter:**
 
-- `questId` (integer): ID of the quest to drop
+- `questId` (string): MongoDB ObjectId of the quest to drop
 
 **Response (Success - 200):**
 
@@ -676,9 +845,9 @@ travelTime = (distance / 2) / speed
 
 **Query Parameters:**
 
-- `skill` (optional, string): Filter by skill name
-- `level` (optional, number): Filter by minimum level
-- `location` (optional, string): Filter by location
+- `skill` (optional, string): Filter by skill name (e.g. `mining`, `woodcutting`, `fishing`, `thievery`, `cooking`, `alchemy`, `agility`, `farming`, `smithing`, `slaying`)
+- `level` (optional, number): Filter by minimum level (skills where `level <=` this value)
+- `location` (optional, string): Filter by location name
 
 **Response (Success - 200):**
 
@@ -688,10 +857,24 @@ travelTime = (distance / 2) / speed
     {
       "_id": "skillId",
       "skill": "mining",
-      "location": "cityName",
-      "level": 1,
-      "time": 30,
-      "item": "ore"
+      "level": 0,
+      "itemId": 2,
+      "itemName": "Rusty Iron Ore",
+      "location": "Solstice",
+      "craftable": false,
+      "time": 45,
+      "description": "Violently liberating rocks from their homes in the ground."
+    },
+    {
+      "_id": "skillId",
+      "skill": "woodcutting",
+      "level": 0,
+      "itemId": 1,
+      "itemName": "Pine Wood",
+      "location": "Solstice",
+      "craftable": false,
+      "time": 60,
+      "description": "The art of hitting a tree until it falls over..."
     }
   ]
 }
@@ -711,23 +894,27 @@ travelTime = (distance / 2) / speed
 
 **Endpoint:** `POST /gameapi/skilling`
 
-**Description:** Starts a skilling activity (e.g., mining, woodcutting).
+**Description:** Starts a skilling activity (e.g., mining, woodcutting). The activity must be available at the player's current location; `item` is matched against the skill's `itemName` (case-insensitive).
 
 **Request Body:**
 
 ```json
 {
   "skillName": "mining",
-  "item": "ore",
+  "item": "Rusty Iron Ore",
   "count": 1
 }
 ```
+
+- `skillName` (string): Skill name (e.g. `mining`, `woodcutting`, `fishing`)
+- `item` (string): Item name produced by the skill (e.g. `Rusty Iron Ore`, `Pine Wood`, `Confused Guppy`). Must match a skill at the player's location.
+- `count` (optional, number): Default 1. Total time = skill `time` × count (in seconds).
 
 **Response (Success - 200):**
 
 ```json
 {
-  "message": "Started working on mining getting ore"
+  "message": "Started working on mining getting Rusty Iron Ore"
 }
 ```
 
@@ -855,9 +1042,14 @@ Common status codes:
   skills: {
     mining: number;
     woodcutting: number;
-    arcana: number;
+    fishing: number;
+    thievery: number;
     cooking: number;
-    gathering: number;
+    alchemy: number;
+    agility: number;
+    farming: number;
+    smithing: number;
+    slaying: number;
   };
   quests: string[]; // Array of quest IDs
   class?: string;
@@ -880,6 +1072,7 @@ Common status codes:
   arrivalTime?: Date;
   finishTime?: Date;
   updatedOn?: Date;
+  killCounts?: Record<string, number>; // monster name → kill count
 }
 ```
 
@@ -890,14 +1083,19 @@ Common status codes:
 ```typescript
 {
   _id: string;
-  name: string;
+  title: string;
   description: string;
-  type: 'fetch' | 'explore' | 'intro';
+  type: 'intro' | 'fetch' | 'explore' | 'kill';
   active: boolean;
-  acquire?: ItemObject;
+  goto?: string;           // fetch: where to get the item
+  acquire?: ItemObject;     // fetch: item to acquire
+  location?: string;       // fetch/explore/kill: quest location
+  target?: string;         // kill: monster name
+  count?: number;          // kill: number to defeat
   rewards?: {
-    items: ItemObject[];
+    gold?: number;
     xp?: number;
+    items?: { item: ItemObject; count: number }[];
   };
 }
 ```
@@ -910,13 +1108,18 @@ Common status codes:
 {
   _id: string;
   name: string;
+  description?: string;
   type: 'consumable' | 'junk' | 'equipment';
+  value?: number;
+  weight?: number;
   effect?: {
     hitpoints?: number;
     stats?: { [key: string]: number };
     speed?: number;
     weight?: number;
-    time?: number; // minutes
+    time?: number;         // minutes
+    // Skill boost (consumables): e.g. mining, woodcutting, fishing, cooking, etc.
+    [skillName: string]?: number;
   };
 }
 ```
@@ -929,10 +1132,11 @@ Common status codes:
 {
   _id: string;
   name: string;
+  description?: string;
+  type: 'city' | 'town' | 'village' | 'outpost' | 'poi';
   x: number;
   y: number;
   population: number;
-  type: string;
 }
 ```
 
@@ -944,9 +1148,89 @@ Common status codes:
 {
   _id: string;
   skill: string;
-  location: string;
   level: number;
-  time: number; // seconds
-  item: string;
+  itemId: number;
+  itemName: string;
+  location: string;
+  craftable: boolean;
+  time: number;           // seconds per unit
+  description?: string;
 }
 ```
+
+---
+
+## Monster Data Structure (seed / game data)
+
+Used by **kill**-type quests (`target` field). Not exposed by a dedicated API endpoint.
+
+```typescript
+{
+  _id: string;
+  name: string;
+  description: string;
+  hp: number;
+  level: number;
+  location: string;
+  drops?: { item: string; chance: number }[];
+}
+```
+
+**Seed examples:** Aggressive Pigeon (Solstice Plaza), Sentient Dust Bunny (Shady Alley), Buff Rat (Solstice Sewers).
+
+---
+
+## Seed Item Reference
+
+Items obtainable through skilling or found in the world. All items below are seeded into the `items` collection.
+
+| Name                  | Value | Weight | Notable Effect            |
+| --------------------- | ----- | ------ | ------------------------- |
+| Rusty Iron Ore        | 5     | 2      | —                         |
+| Pine Wood             | 8     | 3      | —                         |
+| Confused Guppy        | 6     | 1      | —                         |
+| Edible-ish Bread      | 4     | 1      | —                         |
+| Minor Health Potion   | 10    | 1      | Restores 5 HP             |
+| Lumberjack's Lager    | 25    | 1      | +5 woodcutting for 10 min |
+| Miner's Mud           | 25    | 1      | +5 mining for 10 min      |
+| Angler's Ale          | 25    | 1      | +5 fishing for 10 min     |
+| Light-Finger Liquid   | 25    | 1      | +5 thievery for 10 min    |
+| Chef's Secret Sauce   | 25    | 1      | +5 cooking for 10 min     |
+| Alchemist's Mistake   | 25    | 1      | +5 alchemy for 10 min     |
+| Bouncy Brew           | 25    | 1      | +5 agility for 10 min     |
+| Green Thumb Tonic     | 25    | 1      | +5 farming for 10 min     |
+| Blacksmith's Beverage | 25    | 1      | +5 smithing for 10 min    |
+| Hunter's Hooch        | 25    | 1      | +5 slaying for 10 min     |
+| Zoom Juice            | 50    | 1      | +20 speed for 5 min       |
+| Mule's Milk           | 50    | 1      | +50 weight for 15 min     |
+
+---
+
+## Seed Quest Reference
+
+All active quests in the game by type:
+
+**Intro**
+| Title | Reward |
+|---|---|
+| Intro to the Plane | 100 gold, 100 xp, 1× Minor Health Potion |
+
+**Fetch**
+| Title | Get item at | Deliver to | Reward |
+|---|---|---|---|
+| The Heavy Lifting | Solstice Mine | Solstice Forge | 50 gold, 100 xp |
+| Timber for Oakhaven | Solstice | Oakhaven | 45 gold, 80 xp |
+| The Chef's Unusual Request | Solstice | Glimmerhold | 35 gold, 60 xp |
+| Bread Delivery | Solstice | Dusklight | 25 gold, 50 xp |
+
+**Explore**
+| Title | Location | Reward |
+|---|---|---|
+| The Scenic Route | The High Spire | 20 gold, 50 xp |
+
+**Kill**
+| Title | Target | Count | Location | Reward |
+|---|---|---|---|---|
+| Pigeon Patrol | Aggressive Pigeon | 5 | Solstice Plaza | 40 gold, 120 xp |
+| Spring Cleaning | Sentient Dust Bunny | 10 | Shady Alley | 30 gold, 150 xp |
+| Sewer Scourge | Buff Rat | 3 | Solstice Sewers | 100 gold, 300 xp |

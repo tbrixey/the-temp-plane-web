@@ -3,68 +3,57 @@ import { Item } from "./items";
 export interface User {
   _id: string;
   apiKey: string;
-  count: number;
-  createdOn: Date;
   playerName: string;
   level: number;
+  levelPointsToUse?: number;
   hitpoints: number;
   maxHitpoints: number;
-  xpToNextLevel: number;
+  xpToNextLevel?: number;
   gold: number;
-  quests: {
+  quests: string[];
+  location?: {
     _id: string;
     name: string;
-    description: string;
-    type: "intro" | "fetch" | "explore" | "fight";
-    goto?: string;
-    acquire?: Item;
-    location?: string;
-    tasks?: string[];
-    active: boolean;
-    rewards: {
-      gold?: number;
-      xp?: number;
-      items?: { item: Item; count: number }[];
-    };
-  }[];
-  updatedOn: Date;
-  location: {
-    _id: string;
-    name: string;
+    description?: string;
     type: string;
     x: number;
     y: number;
     population: number;
   };
-  startingLocation: string;
+  startingLocation?: string | { _id: string };
   bag: {
     item: Item;
     count: number;
-    _id: string;
   }[];
-  race: string;
+  race?: string;
+  class?: string;
   skills: {
     mining: number;
     woodcutting: number;
-    arcana: number;
+    fishing: number;
+    thievery: number;
     cooking: number;
-    gathering: number;
+    alchemy: number;
+    agility: number;
+    farming: number;
+    smithing: number;
+    slaying: number;
   };
-  class: string;
-  speed: number;
   stats: {
-    [key: string]: number;
+    str?: number;
+    con?: number;
+    dex?: number;
+    int?: number;
+    luck?: number;
+    [key: string]: number | undefined;
   };
+  speed: number;
   weight: number;
   arrivalTime?: Date;
   finishTime?: Date;
-  levelPointsToUse?: number;
   bonusStats?: {
-    stats?: {
-      [key: string]: number;
-    };
-    speed?: number;
-    weight?: number;
+    stats?: { [key: string]: number };
     time?: Date;
   };
+  killCounts?: Record<string, number>;
 }

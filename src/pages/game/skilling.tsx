@@ -20,7 +20,9 @@ interface SkillingActivity {
   location: string;
   level: number;
   time: number;
-  item: string;
+  itemName: string;
+  craftable?: boolean;
+  description?: string;
 }
 
 const PlayerSkilling = () => {
@@ -52,7 +54,13 @@ const PlayerSkilling = () => {
           enqueueSnackbar(res.data.message);
           setActivities([]);
         } else {
-          setActivities(res.data.data ?? []);
+          const raw = res.data.data ?? [];
+          setActivities(
+            raw.map((a: { itemName: string; item?: string; [k: string]: unknown }) => ({
+              ...a,
+              itemName: a.itemName ?? a.item ?? "",
+            }))
+          );
         }
       })
       .catch((error) => {
@@ -70,7 +78,7 @@ const PlayerSkilling = () => {
     await gameApi
       .post("skilling", {
         skillName: activity.skill,
-        item: activity.item,
+        item: activity.itemName,
         count,
       })
       .then((res) => {
@@ -161,7 +169,7 @@ const PlayerSkilling = () => {
                         {activity.skill}
                       </Typography>
                       <Typography variant="body2" color="text.secondary">
-                        Item: {activity.item} · {activity.time}s each
+                        Item: {activity.itemName} · {activity.time}s each
                       </Typography>
                       <Stack direction="row" spacing={0.5}>
                         <Chip

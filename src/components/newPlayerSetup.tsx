@@ -49,10 +49,7 @@ export const NewPlayerSetup = ({
     <>
       {classes && cities && races && submit.current !== "done" && (
         <div>
-          Tasks to complete character
-          <div>
-            <span>{session?.user.data.quests[0].tasks?.join(", ")}</span>
-          </div>
+          Complete your character: pick a class, race, and starting city.
           <Grid
             container
             flexDirection={"column"}

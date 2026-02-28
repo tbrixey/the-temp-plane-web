@@ -36,12 +36,12 @@ const Home = () => {
         <link rel="icon" href="/favicon.ico" />
         <meta
           name="description"
-          content="Immerse yourself in an ever-changing and ever-growing game space catered and created by you."
+          content="A silly personal project that became a game. Updates may or may not happen. Play at your own risk."
         />
         <meta itemProp="name" content="The Temporary Plane" />
         <meta
           itemProp="description"
-          content="Immerse yourself in an ever-changing and ever-growing game space catered and created by you."
+          content="A silly personal project that became a game. Updates may or may not happen. Play at your own risk."
         />
         <meta
           itemProp="image"
@@ -52,7 +52,7 @@ const Home = () => {
         <meta property="og:title" content="The Temporary Plane" />
         <meta
           property="og:description"
-          content="Immerse yourself in an ever-changing and ever-growing game space catered and created by you."
+          content="A silly personal project that became a game. Updates may or may not happen. Play at your own risk."
         />
         <meta
           property="og:image"
@@ -62,7 +62,7 @@ const Home = () => {
         <meta name="twitter:title" content="The Temporary Plane" />
         <meta
           name="twitter:description"
-          content="Immerse yourself in an ever-changing and ever-growing game space catered and created by you."
+          content="A silly personal project that became a game. Updates may or may not happen. Play at your own risk."
         />
         <meta
           name="twitter:image"
@@ -86,10 +86,13 @@ const Home = () => {
           <h1 className="m-0 leading-[1.15] text-[4rem] font-extrabold text-center max-sm:text-[2.5rem]">
             Welcome to The Temporary Plane
           </h1>
+          <p className="mt-4 mb-0 text-[1rem] opacity-60 text-center tracking-widest uppercase">
+            A game. Sort of.
+          </p>
 
           <p className="my-16 leading-[1.5] text-[1.5rem] text-center max-sm:text-[1.25rem]">
-            Immerse yourself in an ever-changing and ever-growing game space
-            catered and created by you.
+            A silly personal project that got out of hand. A game space that may
+            or may not grow depending on my whims.
           </p>
 
           <div className="flex w-[60%] justify-center max-sm:w-full">
@@ -114,15 +117,27 @@ const Home = () => {
       </header>
 
       <main className="min-h-screen px-8 py-8 flex-1 flex flex-col justify-center items-center max-sm:p-0">
+        <div className="w-full max-w-[50%] max-sm:max-w-[90%] mt-8 mb-4 border border-white/20 rounded-lg p-6 text-center">
+          <p className="text-[1rem] font-bold mb-2 tracking-wide uppercase opacity-60">
+            Heads up
+          </p>
+          <p className="text-base opacity-80 leading-relaxed">
+            This is a hobby project with zero obligations and zero promises.
+            Updates drop when they drop or they don't. There are no ETAs, no
+            quarterly commitments, and no guarantee that whatever is on the
+            roadmap will ever ship. If that sounds fine to you, welcome. If
+            not, also fine.
+          </p>
+        </div>
+
         {isBrowser ? (
           <div className="w-full flex flex-col justify-center items-center">
             <p className="text-[2rem] font-bold m-[0.5em] text-center max-sm:text-[1.5rem]">
               Live player map
             </p>
             <p className="m-[0.5em] max-w-[40%] max-sm:text-sm max-sm:max-w-[90%] max-sm:text-center">
-              This map shows all current player locations in The Temporary
-              Plane. The plan is to make this map more interactable in the
-              future.
+              See who else wandered in. The map may become more interactable
+              someday. Or not. We'll see.
             </p>
             {isError && (
               <p className="text-xs font-normal">*error loading data</p>
@@ -191,8 +206,7 @@ const Home = () => {
               Live player locations
             </p>
             <p className="m-[0.5em] max-w-[40%] max-sm:text-sm max-sm:max-w-[90%] max-sm:text-center">
-              This list shows all current player locations in The Temporary
-              Plane.
+              See who else wandered in.
             </p>
             {isError && (
               <p className="text-xs font-normal">*error loading data</p>
@@ -218,13 +232,15 @@ const Home = () => {
           <div>
             <p className="text-[2rem] font-bold pb-[1em]">How do I play?</p>
             <p className="opacity-80">
-              You can get started by playing through our basic web portal.
+              You can get started by playing through the basic web portal. No
+              promises on what you'll find, but feel free to poke around.
             </p>
             <Link to="/game">
               <div className={btnClass}>Play now</div>
             </Link>
             <p className="text-[0.9rem] opacity-80">
-              Sign in or Register to start playing. *ALPHA stage
+              Sign in or register to start playing. *ALPHA stage - things will
+              break.
             </p>
           </div>
           <div>
@@ -244,8 +260,7 @@ const Home = () => {
               Is there a roadmap in place?
             </p>
             <p className="text-base opacity-80">
-              You can follow progress and see what is coming up next at our
-              public{" "}
+              Kind of. Ideas and maybes live on the public{" "}
               <a
                 href="https://trello.com/b/tIEjLUYM/the-temporary-plane"
                 target="_blank"
@@ -254,23 +269,25 @@ const Home = () => {
               >
                 Trello board
               </a>
-              . I currently have it organized by what is planned by Quarter with
-              more stuff added to the backlog often. If you think of something I
-              am missing, let me know!
+              , but nothing there is a promise - just a maybe-list. Updates happen
+              when they happen, or they don't. If you think of something I'm
+              missing, let me know and I'll add it to the pile of things I may
+              or may not get to.
             </p>
             <p className="font-bold text-[1.25rem] py-[1em]">
               Do you have documentation?
             </p>
             <p className="text-base opacity-80">
-              Not yet 😞 Documentation will be available at the time of full
-              release. Some documentation will be available once beta hits.
+              Not yet 😞 Docs will exist when the stars align, or when I get
+              around to it - whichever comes first.
             </p>
             <p className="font-bold text-[1.25rem] py-[1em]">
               I have a question
             </p>
             <p className="text-base opacity-80">
-              Oh cool! Reach out to me on Discord or Twitter and I will do my
-              best to answer it.
+              Oh cool! Reach out on Discord or Twitter. I'll do my best to
+              answer it, though response time is subject to the same "when I get
+              to it" policy as everything else here.
             </p>
           </div>
         </div>

@@ -71,7 +71,7 @@ const Game = () => {
           <b style={{ textDecoration: "underline" }}>{user.playerName}</b>{" "}
           level: {user.level}
         </Typography>
-        {user.quests.length > 0 && user.quests[0].type === "intro" ? (
+        {!user.class || !user.race || !user.startingLocation ? (
           <NewPlayerSetup
             cities={cities ?? []}
             races={races ?? []}

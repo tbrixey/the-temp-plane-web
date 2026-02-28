@@ -9,6 +9,12 @@ const fetcher = async (url: string) => {
   return await axios.get(config.apiUrl + url).then((res) => res.data.data);
 };
 
+/** GET /gameapi/locations - returns raw array, not wrapped in data */
+const locationsFetcher = async (url: string) => {
+  const res = await axios.get(config.apiUrl + url);
+  return Array.isArray(res.data) ? res.data : res.data.data ?? [];
+};
+
 export const useGetStartingCities = () => {
   const { data, error } = useSWR<Location[]>("cities", fetcher);
 
@@ -34,6 +40,16 @@ export const useGetRaces = () => {
 
   return {
     races: data,
+    isLoading: !error && !data,
+    isError: error,
+  };
+};
+
+export const useGetLocations = () => {
+  const { data, error } = useSWR<Location[]>("locations", locationsFetcher);
+
+  return {
+    locations: data,
     isLoading: !error && !data,
     isError: error,
   };

@@ -56,7 +56,9 @@ const PlayerQuests = () => {
       .post(`quests/${questId}`)
       .then(() => {
         enqueueSnackbar("Quest accepted!");
-        // Remove from available list after accepting
+        if (setUser && user) {
+          setUser({ ...user, quests: [...user.quests, questId] });
+        }
         setAvailableQuests((prev) => prev?.filter((q) => q._id !== questId));
       })
       .catch((error) => {
@@ -76,7 +78,7 @@ const PlayerQuests = () => {
         if (setUser && user) {
           setUser({
             ...user,
-            quests: user.quests.filter((q) => q._id !== questId),
+            quests: user.quests.filter((id) => id !== questId),
           });
         }
       })
@@ -92,7 +94,9 @@ const PlayerQuests = () => {
     return <div>error can not find user. Please go back to /game</div>;
   }
 
-  const activeQuests = user.quests.filter((q) => q.type !== "intro");
+  const acceptedQuestIds = new Set(user.quests);
+  const activeQuests =
+    availableQuests?.filter((q) => acceptedQuestIds.has(q._id)) ?? [];
 
   return (
     <div className="flex flex-col justify-center items-center min-h-screen py-8">
@@ -112,7 +116,7 @@ const PlayerQuests = () => {
               sx={{ border: "1px solid", borderColor: "divider", borderRadius: 1, p: 1.5 }}
             >
               <Stack spacing={0.5}>
-                <Typography fontWeight="bold">{quest.name}</Typography>
+                <Typography fontWeight="bold">{quest.title}</Typography>
                 <Typography variant="body2" color="text.secondary">
                   {quest.description}
                 </Typography>
@@ -133,10 +137,10 @@ const PlayerQuests = () => {
         </Stack>
       )}
 
-      {user.location && user.location.type === "city" ? (
+      {user.location?.type === "city" ? (
         <Stack spacing={2} alignItems="center" sx={{ width: "100%", maxWidth: 500 }}>
           <Typography style={{ textAlign: "center" }}>
-            Get available quests in <b>{user.location.name}</b>
+            Get available quests in <b>{user.location?.name}</b>
           </Typography>
           <Button
             onClick={getAvailableQuests}
@@ -178,7 +182,7 @@ const PlayerQuests = () => {
                 sx={{ border: "1px solid", borderColor: "divider", borderRadius: 1, p: 1.5 }}
               >
                 <Stack spacing={0.5}>
-                  <Typography fontWeight="bold">{quest.name}</Typography>
+                  <Typography fontWeight="bold">{quest.title}</Typography>
                   <Typography variant="body2" color="text.secondary">
                     {quest.description}
                   </Typography>
